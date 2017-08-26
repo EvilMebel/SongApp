@@ -3,6 +3,11 @@ package com.apps.zientara.rafal.songapp;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
+
+import com.apps.zientara.rafal.songapp.helpers.SongsListReader;
+
+import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,5 +27,11 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.apps.zientara.rafal.songapp", appContext.getPackageName());
+
+        SongsListReader reader = new SongsListReader(appContext);
+        Assert.assertNotNull(reader);
+        Assert.assertNotNull(reader.getJsonString());
+        System.out.println(reader.getJsonString());
+        Log.d("LOL","text = "  + reader.getJsonString());
     }
 }
