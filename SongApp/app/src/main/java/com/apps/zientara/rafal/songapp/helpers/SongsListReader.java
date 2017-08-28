@@ -11,7 +11,9 @@ public class SongsListReader {
     private final String jsonString;
 
     public SongsListReader(Context context) {
-        FileReader reader = new FileReader("songs-list.json");
+        String filePath = "songs-list.json";
+//        context.getAssets().open(filePath);
+        FileReader reader = new FileReader(filePath);
         jsonString = reader.loadJSONFromAsset(context);
     }
 

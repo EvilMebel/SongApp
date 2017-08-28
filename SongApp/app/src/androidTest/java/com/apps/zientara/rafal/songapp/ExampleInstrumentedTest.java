@@ -6,11 +6,15 @@ import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import com.apps.zientara.rafal.songapp.helpers.SongsListReader;
+import com.example.model.SongModel;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.io.InputStream;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -28,10 +32,19 @@ public class ExampleInstrumentedTest {
 
         assertEquals("com.apps.zientara.rafal.songapp", appContext.getPackageName());
 
-        SongsListReader reader = new SongsListReader(appContext);
-        Assert.assertNotNull(reader);
-        Assert.assertNotNull(reader.getJsonString());
-        System.out.println(reader.getJsonString());
-        Log.d("LOL","text = "  + reader.getJsonString());
+        String filePath = "songs-list.json";
+        InputStream inputStream = appContext.getAssets().open(filePath);
+        JsonFileConverter converter = new JsonFileConverter();
+        List<SongModel> songs = converter.getSongs(inputStream);
+        Assert.assertNotNull(songs);
+        Assert.assertFalse(songs.isEmpty());
+//        SongsListReader reader = new SongsListReader(appContext);
+//        Assert.assertNotNull(reader);
+//        Assert.assertNotNull(reader.getJsonString());
+//        System.out.println(reader.getJsonString());
+//        Log.d("LOL","text = "  + reader.getJsonString());
+
+
+
     }
 }
