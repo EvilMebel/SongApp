@@ -62,6 +62,7 @@ public class SongsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         prepareRecyclerViewAdapter();
+        hideProgressBar();
         loadData();
     }
 

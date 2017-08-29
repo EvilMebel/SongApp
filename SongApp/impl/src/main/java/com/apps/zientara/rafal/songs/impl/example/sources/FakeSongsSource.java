@@ -14,6 +14,7 @@ import java.util.Random;
 
 public class FakeSongsSource implements SongsSource {
 
+    public static final int FAKE_LOADING_MILLIS = 300;
     private final Random random;
 
     public FakeSongsSource() {
@@ -27,13 +28,26 @@ public class FakeSongsSource implements SongsSource {
     }
 
     private List<SongModel> getFakeSongModels(int recordsCount) {
-        List<SongModel> songModels = new ArrayList<>();
+        List<SongModel> songModels = generateFakeData(recordsCount);
+        simulateLoading();
+        return songModels;
+    }
 
+    private List<SongModel> generateFakeData(int recordsCount) {
+        List<SongModel> songModels = new ArrayList<>();
         for (int i = 0; i < recordsCount; i++) {
             FakeSong fakeSong = new FakeSong();
             songModels.add(fakeSong);
         }
         return songModels;
+    }
+
+    private void simulateLoading() {
+        try {
+            Thread.sleep(FAKE_LOADING_MILLIS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
