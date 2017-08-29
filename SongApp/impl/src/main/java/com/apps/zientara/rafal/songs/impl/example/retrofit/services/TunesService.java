@@ -1,6 +1,6 @@
-package com.example.retrofit.services;
+package com.apps.zientara.rafal.songs.impl.example.retrofit.services;
 
-import com.example.models.TunesFrame;
+import com.apps.zientara.rafal.songs.impl.models.tunes.TunesFrame;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

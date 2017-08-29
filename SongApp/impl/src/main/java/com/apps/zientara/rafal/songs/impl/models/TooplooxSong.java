@@ -1,6 +1,6 @@
-package com.example.models;
+package com.apps.zientara.rafal.songs.impl.models;
 
-import com.example.model.SongModel;
+import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.google.gson.annotations.SerializedName;
 
 public class TooplooxSong implements SongModel {
@@ -32,7 +32,7 @@ public class TooplooxSong implements SongModel {
     }
 
     @Override
-    public int getReleaseYear() {
+    public Integer getReleaseYear() {
         return releaseYear;
     }
 

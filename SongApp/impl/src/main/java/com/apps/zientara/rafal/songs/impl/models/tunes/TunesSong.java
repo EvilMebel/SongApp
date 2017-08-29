@@ -1,6 +1,6 @@
-package com.example.models;
+package com.apps.zientara.rafal.songs.impl.models.tunes;
 
-import com.example.model.SongModel;
+import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Calendar;
@@ -344,7 +344,7 @@ public class TunesSong implements SongModel {
     }
 
     @Override
-    public int getReleaseYear() {
+    public Integer getReleaseYear() {
         if (releaseDate != null)
             return getYear();
         return 0;

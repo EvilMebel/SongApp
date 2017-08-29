@@ -1,7 +1,7 @@
-package com.example.model;
+package com.apps.rafal.zientara.songs.core.model;
 
 public interface SongModel {
     String getArtist();
-    int getReleaseYear();
+    Integer getReleaseYear();
     String getSongName();
 }

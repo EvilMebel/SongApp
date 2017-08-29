@@ -1,8 +1,8 @@
 package com.apps.zientara.rafal.songapp;
 
-import com.example.models.TunesFrame;
-import com.example.retrofit.TunesAdapter;
-import com.example.retrofit.services.TunesService;
+import com.apps.zientara.rafal.songs.impl.models.tunes.TunesFrame;
+import com.apps.zientara.rafal.songs.impl.example.retrofit.TunesAdapter;
+import com.apps.zientara.rafal.songs.impl.example.retrofit.services.TunesService;
 
 import org.junit.Test;
 

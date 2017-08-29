@@ -1,8 +1,8 @@
 package com.apps.zientara.rafal.songapp;
 
-import com.example.retrofit.IntegerTypeAdapter;
-import com.example.models.TooplooxSong;
-import com.example.model.SongModel;
+import com.apps.zientara.rafal.songs.impl.example.retrofit.IntegerTypeAdapter;
+import com.apps.zientara.rafal.songs.impl.models.TooplooxSong;
+import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;

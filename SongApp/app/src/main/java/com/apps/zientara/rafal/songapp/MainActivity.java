@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.apps.zientara.rafal.songapp.fragments.SongsFragment;
+
 import org.w3c.dom.Text;
 
 import java.io.IOException;
@@ -12,7 +14,7 @@ import java.io.InputStream;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.mainActivity_outputText)
     TextView outputText;
@@ -22,9 +24,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        outputText.setText(loadJSONFromAsset());
+        openFragment(new SongsFragment(), false);
+//        outputText.setText(loadJSONFromAsset());
     }
-
+/*
     public String loadJSONFromAsset() {
         String json = null;
         try {
@@ -39,5 +42,5 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
         return json;
-    }
+    }*/
 }

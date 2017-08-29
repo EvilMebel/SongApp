@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.example.model.SongModel;
+import com.apps.rafal.zientara.songs.core.model.SongModel;
 
 import junit.framework.Assert;
 

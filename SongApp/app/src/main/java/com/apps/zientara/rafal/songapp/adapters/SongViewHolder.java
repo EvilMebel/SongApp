@@ -4,10 +4,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.zientara.rafal.songapp.R;
-import com.example.model.SongModel;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 class SongViewHolder extends RecyclerView.ViewHolder {
 
@@ -22,11 +23,18 @@ class SongViewHolder extends RecyclerView.ViewHolder {
 
     public SongViewHolder(View itemView) {
         super(itemView);
+        ButterKnife.bind(this, itemView);
     }
 
     public void updateFields(SongModel song) {
         artistText.setText(song.getArtist());
-        releaseYearText.setText(song.getReleaseYear());
+        releaseYearText.setText(getYearText(song));
         songNameText.setText(song.getSongName());
+    }
+
+    private String getYearText(SongModel song) {
+        if (song.getReleaseYear() != null)
+            return Integer.toString(song.getReleaseYear());
+        return "";
     }
 }

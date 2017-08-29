@@ -1,6 +1,6 @@
-package com.example.retrofit;
+package com.apps.zientara.rafal.songs.impl.example.retrofit;
 
-import com.example.retrofit.services.TunesService;
+import com.apps.zientara.rafal.songs.impl.example.retrofit.services.TunesService;
 
 import retrofit2.Retrofit;
 

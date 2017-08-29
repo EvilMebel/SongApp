@@ -7,17 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.apps.zientara.rafal.songapp.R;
-import com.example.model.SongModel;
+import com.apps.rafal.zientara.songs.core.model.SongModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SongsAdapter extends RecyclerView.Adapter<SongViewHolder>{
     private final LayoutInflater inlfater;
     List<SongModel> songsList;
 
-    public SongsAdapter(Context context, List<SongModel> songsList) {
+    public SongsAdapter(Context context) {
         inlfater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.songsList = songsList;
+        this.songsList = new ArrayList<>();
     }
 
     @Override
@@ -35,5 +36,9 @@ public class SongsAdapter extends RecyclerView.Adapter<SongViewHolder>{
     @Override
     public int getItemCount() {
         return songsList.size();
+    }
+
+    public void setSongsList(List<SongModel> songsList) {
+        this.songsList = songsList;
     }
 }
