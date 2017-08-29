@@ -8,10 +8,6 @@ import android.support.v4.app.DialogFragment;
 import android.view.ViewGroup;
 import android.view.Window;
 
-/**
- * Created by Evil on 26.08.2017.
- */
-
 public class FullscreenDialogFragment extends DialogFragment {
 
     @Override

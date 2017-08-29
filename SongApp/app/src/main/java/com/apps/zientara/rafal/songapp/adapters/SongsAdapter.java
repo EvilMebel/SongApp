@@ -11,10 +11,6 @@ import com.example.model.SongModel;
 
 import java.util.List;
 
-/**
- * Created by Evil on 26.08.2017.
- */
-
 public class SongsAdapter extends RecyclerView.Adapter<SongViewHolder>{
     private final LayoutInflater inlfater;
     List<SongModel> songsList;

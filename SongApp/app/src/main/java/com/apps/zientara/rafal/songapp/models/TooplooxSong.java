@@ -3,10 +3,6 @@ package com.apps.zientara.rafal.songapp.models;
 import com.example.model.SongModel;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Evil on 26.08.2017.
- */
-
 public class TooplooxSong implements SongModel {
 
     @SerializedName("Song Clean")

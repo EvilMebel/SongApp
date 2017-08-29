@@ -9,10 +9,6 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 
-/**
- * Created by Evil on 26.08.2017.
- */
-
 public class IntegerTypeAdapter extends TypeAdapter<Integer> {
     public static final int INT_ERROR_CODE = -1;
 

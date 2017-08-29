@@ -9,10 +9,6 @@ import com.example.model.SongModel;
 
 import butterknife.BindView;
 
-/**
- * Created by Evil on 26.08.2017.
- */
-
 class SongViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.songItem_artistText)

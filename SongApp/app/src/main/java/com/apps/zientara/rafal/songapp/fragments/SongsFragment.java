@@ -14,10 +14,6 @@ import com.apps.zientara.rafal.songapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by Evil on 26.08.2017.
- */
-
 public class SongsFragment extends Fragment {
 
     @BindView(R.id.songsFragment_recyclerView)

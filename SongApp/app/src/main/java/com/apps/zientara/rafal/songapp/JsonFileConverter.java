@@ -16,10 +16,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Evil on 26.08.2017.
- */
-
 public class JsonFileConverter {
 
     public List<SongModel> getSongs(InputStream source) {
