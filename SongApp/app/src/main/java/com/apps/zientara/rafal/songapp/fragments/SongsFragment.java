@@ -29,6 +29,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
 public class SongsFragment extends Fragment {
@@ -101,12 +102,18 @@ public class SongsFragment extends Fragment {
                     @Override
                     public boolean isDisposed() {
                         return false;
-                    }
+                    }//// TODO: 29.08.2017 ?
                 });
             }
         });
 
         searchObservable
+                .filter(new Predicate<String>() {
+                    @Override
+                    public boolean test(String query) throws Exception {
+                        return query.length() >= 2;
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(new Consumer<String>() {
                     @Override
@@ -134,7 +141,6 @@ public class SongsFragment extends Fragment {
     private void showResult(List<SongModel> songsList) {
         songsAdapter.setSongsList(songsList);
         songsAdapter.notifyDataSetChanged();
-
     }
 
     private void hideProgressBar() {
