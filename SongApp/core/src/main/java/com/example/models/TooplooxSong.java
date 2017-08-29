@@ -1,4 +1,4 @@
-package com.apps.zientara.rafal.songapp.models;
+package com.example.models;
 
 import com.example.model.SongModel;
 import com.google.gson.annotations.SerializedName;

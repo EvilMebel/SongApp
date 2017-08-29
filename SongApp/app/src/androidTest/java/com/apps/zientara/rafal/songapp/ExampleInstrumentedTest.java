@@ -3,11 +3,7 @@ package com.apps.zientara.rafal.songapp;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
-import com.apps.zientara.rafal.songapp.helpers.SongsListReader;
-import com.apps.zientara.rafal.songapp.retrofit.TunesAdapter;
-import com.apps.zientara.rafal.songapp.retrofit.services.TunesService;
 import com.example.model.SongModel;
 
 import junit.framework.Assert;

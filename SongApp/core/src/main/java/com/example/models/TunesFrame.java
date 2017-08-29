@@ -1,12 +1,8 @@
-package com.apps.zientara.rafal.songapp.models;
+package com.example.models;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
-
-/**
- * Created by Evil on 29.08.2017.
- */
 
 public class TunesFrame {
     @SerializedName("resultCount")

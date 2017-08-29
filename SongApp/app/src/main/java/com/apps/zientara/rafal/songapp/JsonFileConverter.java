@@ -1,9 +1,7 @@
 package com.apps.zientara.rafal.songapp;
 
-import android.util.Log;
-
-import com.apps.zientara.rafal.songapp.converter.serializers.IntegerTypeAdapter;
-import com.apps.zientara.rafal.songapp.models.TooplooxSong;
+import com.example.retrofit.IntegerTypeAdapter;
+import com.example.models.TooplooxSong;
 import com.example.model.SongModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

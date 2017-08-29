@@ -1,15 +1,12 @@
-package com.apps.zientara.rafal.songapp.models;
+package com.example.models;
 
 import com.example.model.SongModel;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by Evil on 29.08.2017.
- */
-
-public class TunesSong implements SongModel{
+public class TunesSong implements SongModel {
 
     @SerializedName("wrapperType")
     String wrapperType;
@@ -69,7 +66,7 @@ public class TunesSong implements SongModel{
     Float trackPrice;
 
     @SerializedName("releaseDate")
-    Date releaseDate;//// TODO: 29.08.2017 date?
+    Date releaseDate;
 
     @SerializedName("collectionExplicitness")
     String collectionExplicitness;
@@ -348,8 +345,15 @@ public class TunesSong implements SongModel{
 
     @Override
     public int getReleaseYear() {
-        //// TODO: 29.08.2017 get from releaseDate
+        if (releaseDate != null)
+            return getYear();
         return 0;
+    }
+
+    private int getYear() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(releaseDate);
+        return cal.get(Calendar.YEAR);
     }
 
     @Override

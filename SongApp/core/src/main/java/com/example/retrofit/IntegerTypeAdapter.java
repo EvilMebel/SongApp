@@ -1,6 +1,4 @@
-package com.apps.zientara.rafal.songapp.converter.serializers;
-
-import android.support.annotation.NonNull;
+package com.example.retrofit;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
@@ -36,7 +34,6 @@ public class IntegerTypeAdapter extends TypeAdapter<Integer> {
         }
     }
 
-    @NonNull
     private Integer getIntegerFromString(JsonReader in) throws IOException {
         String string = in.nextString();
         int parseInt = INT_ERROR_CODE;
@@ -45,7 +42,6 @@ public class IntegerTypeAdapter extends TypeAdapter<Integer> {
         return parseInt;
     }
 
-    @NonNull
     private Integer getInteger(String string) {
         int parseInt;
         try {

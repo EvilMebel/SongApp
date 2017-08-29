@@ -1,9 +1,5 @@
-package com.apps.zientara.rafal.songapp.retrofit;
+package com.example.retrofit;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-
-import com.apps.zientara.rafal.songapp.converter.serializers.IntegerTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -25,16 +21,13 @@ public class TunesRestAdapter {
     }
 
     private Gson getGson() {
-        //2005-03-01T08:00:00Z
         return new GsonBuilder()
                 .serializeNulls()
                 .registerTypeAdapter(Integer.class, new IntegerTypeAdapter())
-//                .setDateFormat("2005-03-01T08:00:00Z")
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                 .create();
     }
 
-    @NonNull
     public Retrofit getRetrofit() {
         return retrofit;
     }

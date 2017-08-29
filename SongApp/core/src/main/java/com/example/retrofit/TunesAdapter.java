@@ -1,11 +1,11 @@
-package com.apps.zientara.rafal.songapp.retrofit;
+package com.example.retrofit;
 
-import com.apps.zientara.rafal.songapp.retrofit.services.TunesService;
+import com.example.retrofit.services.TunesService;
 
 import retrofit2.Retrofit;
 
 public class TunesAdapter {
-    public static final String TUNES_URL = "https://itunes.apple.com";
+    static final String TUNES_URL = "https://itunes.apple.com";
     private final TunesService tunesService;
     TunesRestAdapter tunesRestAdapter;
 
