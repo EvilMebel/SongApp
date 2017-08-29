@@ -16,9 +16,11 @@ import android.widget.ProgressBar;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.zientara.rafal.songapp.R;
 import com.apps.zientara.rafal.songapp.adapters.SongsAdapter;
+import com.apps.zientara.rafal.songapp.observables.SearchObservable;
 import com.apps.zientara.rafal.songs.impl.SearchEngine;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +32,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.BehaviorSubject;
 
 public class SongsFragment extends Fragment {
     private SearchEngine searchEngine;
@@ -44,6 +48,7 @@ public class SongsFragment extends Fragment {
 
     @BindView(R.id.songsFragment_progressSpinner)
     ProgressBar progressSpinner;
+    private Disposable subscribe;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,42 +78,10 @@ public class SongsFragment extends Fragment {
     }
 
     private void loadData() {
-        Observable<String> searchObservable = Observable.create(new ObservableOnSubscribe<String>() {
-            @Override
-            public void subscribe(final ObservableEmitter<String> emiter) throws Exception {
-                final TextWatcher textWatcher = new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        Observable<String> searchObservable = new SearchObservable(searchEditText).create();
 
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        emiter.onNext(charSequence.toString());
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-
-                    }
-                };
-                searchEditText.addTextChangedListener(textWatcher);
-
-                emiter.setDisposable(new Disposable() {
-                    @Override
-                    public void dispose() {
-                        searchEditText.removeTextChangedListener(textWatcher);
-                    }
-
-                    @Override
-                    public boolean isDisposed() {
-                        return false;
-                    }//// TODO: 29.08.2017 ?
-                });
-            }
-        });
-
-        searchObservable
+        subscribe = searchObservable
+                .debounce(300, TimeUnit.MILLISECONDS)
                 .filter(new Predicate<String>() {
                     @Override
                     public boolean test(String query) throws Exception {
@@ -137,6 +110,12 @@ public class SongsFragment extends Fragment {
                         showResult(songsList);
                     }
                 });
+    }
+
+
+    private void dispose() {
+        if (subscribe != null && !subscribe.isDisposed())
+            subscribe.dispose();
     }
 
     private void showResult(List<SongModel> songsList) {
