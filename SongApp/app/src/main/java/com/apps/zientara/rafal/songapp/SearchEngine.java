@@ -23,14 +23,14 @@ public class SearchEngine extends BaseSearchEngine {
     private JsonSongsSource jsonSongsSource;
     private TunesSongsSource tunesSongsSource;
 
-    public SearchEngine(Logger logger, Context context) {
+    public SearchEngine(Logger logger, Context applicationContext) {
         super(logger);
-        addSongSources(songsSources, context);
-        refreshSourcesEnableState(context);
+        addSongSources(songsSources, applicationContext);
+        refreshSourcesEnableState(applicationContext);
     }
 
-    public void refreshSourcesEnableState(Context context) {
-        DataSourcePreferences preferences = new DataSourcePreferences(context);
+    public void refreshSourcesEnableState(Context applicationContext) {
+        DataSourcePreferences preferences = DataSourcePreferences.getInstance(applicationContext);
         fakeSongsSource.setEnabled(preferences.isFakeDataEnabled());
         jsonSongsSource.setEnabled(preferences.isLocalDbEnabled());
         tunesSongsSource.setEnabled(preferences.isTunesEnabled());
@@ -45,9 +45,9 @@ public class SearchEngine extends BaseSearchEngine {
         }
     }
 
-    private void addSongSources(List<SongsSource> songsSources, Context context) {
+    private void addSongSources(List<SongsSource> songsSources, Context applicationContext) {
         String filePath = "songs-list.json";
-        prepareJsonSongSource(context, filePath);
+        prepareJsonSongSource(applicationContext, filePath);
         songsSources.add(jsonSongsSource);
         fakeSongsSource = new FakeSongsSource(logger);
         songsSources.add(fakeSongsSource);

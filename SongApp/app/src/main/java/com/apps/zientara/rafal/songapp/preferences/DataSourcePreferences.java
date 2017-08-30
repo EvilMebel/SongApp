@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.f2prateek.rx.preferences2.RxSharedPreferences;
+
 /**
  * Created by Evil on 30.08.2017.
  */
@@ -19,10 +21,21 @@ public class DataSourcePreferences {
     private boolean isLocalDbEnabled;
     private boolean isFakeDataEnabled;
     private boolean isTunesEnabled;
+    private DataChangedListener dataChangedListener;
+    private static DataSourcePreferences instance;
 
-    public DataSourcePreferences(Context context) {
+    public static DataSourcePreferences getInstance(Context applicationContext) {
+        if(instance == null)
+            instance = new DataSourcePreferences(applicationContext);
+        return instance;
+    }
+
+    private DataSourcePreferences(Context context) {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         refreshData();
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        RxSharedPreferences rxPreferences = RxSharedPreferences.create(preferences);
     }
 
     public void refreshData() {
@@ -40,8 +53,10 @@ public class DataSourcePreferences {
         saveBoolean(SETTINGS_USE_LOCAL_DB_KEY, localDbEnabled);
     }
 
-    private void saveBoolean(String valueKey, boolean value) {
+    protected void saveBoolean(String valueKey, boolean value) {
         preferences.edit().putBoolean(valueKey, value).apply();
+        if (dataChangedListener != null)
+            dataChangedListener.dataChanged();
     }
 
     public boolean isFakeDataEnabled() {
@@ -60,5 +75,9 @@ public class DataSourcePreferences {
     public void setTunesEnabled(boolean tunesEnabled) {
         isTunesEnabled = tunesEnabled;
         saveBoolean(SETTINGS_USE_ITUNES_KEY, tunesEnabled);
+    }
+
+    public interface DataChangedListener {
+        void dataChanged();
     }
 }

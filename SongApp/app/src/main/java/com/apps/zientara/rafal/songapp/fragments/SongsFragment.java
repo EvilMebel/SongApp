@@ -2,7 +2,6 @@ package com.apps.zientara.rafal.songapp.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import com.apps.zientara.rafal.songapp.SearchEngine;
 import com.apps.zientara.rafal.songapp.adapters.SongsAdapter;
 import com.apps.zientara.rafal.songapp.loggers.ConsoleLogger;
 import com.apps.zientara.rafal.songapp.observables.SearchObservable;
-import com.apps.rafal.zientara.songs.core.BaseSearchEngine;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -32,7 +30,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
-public class SongsFragment extends Fragment {
+public class SongsFragment extends BaseFragment {
     private static final int LOADING_TIME_OFFSET = 100;//300;
     private SearchEngine searchEngine;
     private Disposable searchDisposable;
@@ -99,6 +97,7 @@ public class SongsFragment extends Fragment {
                 .map(new Function<String, List<SongModel>>() {
                     @Override
                     public List<SongModel> apply(String query) {
+                        searchEngine.refreshSourcesEnableState(getContext().getApplicationContext());
                         if (query == null || query.isEmpty())
                             return searchEngine.getAll();
                         return searchEngine.search(query);
