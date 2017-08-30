@@ -1,6 +1,6 @@
-package com.apps.zientara.rafal.songs.impl.example.sources;
+package com.apps.zientara.rafal.songs.impl.converters;
 
-import com.apps.zientara.rafal.songs.impl.example.retrofit.IntegerTypeAdapter;
+import com.apps.zientara.rafal.songs.impl.retrofit.IntegerTypeAdapter;
 import com.apps.zientara.rafal.songs.impl.models.TooplooxSong;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.google.gson.Gson;
@@ -17,25 +17,17 @@ import java.util.List;
 public class JsonFileConverter {
 
     public List<SongModel> getSongs(InputStream source) {
-        //InputStream source = retrieveStream(url);
-
-        Gson gson = new GsonBuilder()
-                .serializeNulls()
-                .registerTypeAdapter(Integer.class, new IntegerTypeAdapter())
-                .create();
-
+        Gson gson = getGson();
         Reader reader = new InputStreamReader(source);
-
         Type listType = new TypeToken<ArrayList<TooplooxSong>>(){}.getType();
-
         List<SongModel> songModels = gson.fromJson(reader, listType);
-//        SongModel songModel = gson.fromJson(reader, SongModel.class);
-
-//        List<SongModel> results = response.results;
-
-//        for (SongModel result : songModels) {
-//            Toast.makeText(this, result.fromUser, Toast.LENGTH_SHORT).show();
-//        }
         return songModels;
+    }
+
+    private Gson getGson() {
+        return new GsonBuilder()
+                    .serializeNulls()
+                    .registerTypeAdapter(Integer.class, new IntegerTypeAdapter())
+                    .create();
     }
 }

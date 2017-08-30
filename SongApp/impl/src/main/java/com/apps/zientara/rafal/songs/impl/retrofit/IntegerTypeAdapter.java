@@ -1,4 +1,4 @@
-package com.apps.zientara.rafal.songs.impl.example.retrofit;
+package com.apps.zientara.rafal.songs.impl.retrofit;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;

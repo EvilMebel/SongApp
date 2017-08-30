@@ -25,7 +25,7 @@ public class DataSourcePreferences {
         refreshData();
     }
 
-    private void refreshData() {
+    public void refreshData() {
         isLocalDbEnabled = preferences.getBoolean(SETTINGS_USE_LOCAL_DB_KEY, ENABLE_LOCAL_DB_DEFAULT);
         isFakeDataEnabled = preferences.getBoolean(SETTINGS_USE_FAKE_DATA_KEY, ENABLE_FAKE_DATA_DEFAULT);
         isTunesEnabled = preferences.getBoolean(SETTINGS_USE_ITUNES_KEY, ENABLE_TUNES_DEFAULT);

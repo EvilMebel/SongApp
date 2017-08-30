@@ -1,9 +1,10 @@
-package com.apps.zientara.rafal.songs.impl.example.sources;
+package com.apps.zientara.rafal.songs.impl.sources;
 
+import com.apps.rafal.zientara.songs.core.loggers.Logger;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
-import com.apps.rafal.zientara.songs.core.searching.SongsSource;
-import com.apps.zientara.rafal.songs.impl.example.retrofit.IntegerTypeAdapter;
-import com.apps.zientara.rafal.songs.impl.example.retrofit.services.TunesService;
+import com.apps.rafal.zientara.songs.core.sources.SongsSource;
+import com.apps.zientara.rafal.songs.impl.retrofit.IntegerTypeAdapter;
+import com.apps.zientara.rafal.songs.impl.retrofit.services.TunesService;
 import com.apps.zientara.rafal.songs.impl.models.tunes.TunesFrame;
 import com.apps.zientara.rafal.songs.impl.models.tunes.TunesSong;
 import com.google.gson.Gson;
@@ -17,12 +18,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class TunesSongsSource implements SongsSource {
-
+public class TunesSongsSource extends SongsSource {
     private final Retrofit retrofit;
     private final TunesService tunesService;
 
-    public TunesSongsSource() {
+    public TunesSongsSource(Logger logger) {
+        super(logger);
         retrofit = createRestAdapter(TunesService.TUNES_URL);
         tunesService = retrofit.create(TunesService.class);
     }
@@ -56,9 +57,7 @@ public class TunesSongsSource implements SongsSource {
             for (TunesSong song : resultsSongs)
                 songsList.add(song);
         } catch (IOException e) {
-            //// TODO: 29.08.2017 clean up
-            e.printStackTrace();
-            System.out.printf(String.format("%s : %s", e.getClass().getSimpleName()), e.getMessage());
+            logger.error(String.format("%s : %s", e.getClass().getSimpleName(), e.getMessage()));
             return new ArrayList<>();
         }
         return songsList;

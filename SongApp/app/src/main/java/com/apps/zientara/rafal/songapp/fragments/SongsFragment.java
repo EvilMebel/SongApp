@@ -15,8 +15,9 @@ import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.zientara.rafal.songapp.R;
 import com.apps.zientara.rafal.songapp.SearchEngine;
 import com.apps.zientara.rafal.songapp.adapters.SongsAdapter;
+import com.apps.zientara.rafal.songapp.loggers.ConsoleLogger;
 import com.apps.zientara.rafal.songapp.observables.SearchObservable;
-import com.apps.zientara.rafal.songs.impl.BaseSearchEngine;
+import com.apps.rafal.zientara.songs.core.BaseSearchEngine;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -32,8 +33,11 @@ import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
 public class SongsFragment extends Fragment {
-    private BaseSearchEngine searchEngine;
+    private static final int LOADING_TIME_OFFSET = 100;//300;
+    private SearchEngine searchEngine;
+    private Disposable searchDisposable;
     private SongsAdapter songsAdapter;
+    private ConsoleLogger consoleLogger;
 
     @BindView(R.id.songsFragment_recyclerView)
     RecyclerView recyclerView;
@@ -43,12 +47,12 @@ public class SongsFragment extends Fragment {
 
     @BindView(R.id.songsFragment_progressSpinner)
     ProgressBar progressSpinner;
-    private Disposable subscribe;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        searchEngine = new SearchEngine(getActivity());
+        consoleLogger = new ConsoleLogger();
+        searchEngine = new SearchEngine(consoleLogger, getActivity());
     }
 
     @Override
@@ -75,12 +79,13 @@ public class SongsFragment extends Fragment {
     private void loadData() {
         Observable<String> searchObservable = new SearchObservable(searchEditText).create();
 
-        subscribe = searchObservable
-                .debounce(300, TimeUnit.MILLISECONDS)
+        searchDisposable = searchObservable
+                .debounce(LOADING_TIME_OFFSET, TimeUnit.MILLISECONDS)
                 .filter(new Predicate<String>() {
                     @Override
                     public boolean test(String query) throws Exception {
-                        return query.length() >= 2;
+                        int length = query.length();
+                        return length != 1;
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -94,6 +99,8 @@ public class SongsFragment extends Fragment {
                 .map(new Function<String, List<SongModel>>() {
                     @Override
                     public List<SongModel> apply(String query) {
+                        if (query == null || query.isEmpty())
+                            return searchEngine.getAll();
                         return searchEngine.search(query);
                     }
                 })
@@ -107,10 +114,16 @@ public class SongsFragment extends Fragment {
                 });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        consoleLogger.info("onResume");
+        searchEngine.refreshSourcesEnableState(getActivity().getApplicationContext());
+    }
 
     private void dispose() {
-        if (subscribe != null && !subscribe.isDisposed())
-            subscribe.dispose();
+        if (searchDisposable != null && !searchDisposable.isDisposed())
+            searchDisposable.dispose();
     }
 
     private void showResult(List<SongModel> songsList) {

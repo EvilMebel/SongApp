@@ -1,7 +1,7 @@
-package com.apps.zientara.rafal.songs.impl.example.retrofit;
+package com.apps.zientara.rafal.songs.impl.retrofit;
 
-import com.apps.zientara.rafal.songs.impl.example.retrofit.services.TunesService;
-import com.apps.zientara.rafal.songs.impl.example.sources.TunesSongsSource;
+import com.apps.zientara.rafal.songs.impl.retrofit.services.TunesService;
+import com.apps.zientara.rafal.songs.impl.sources.TunesSongsSource;
 
 import retrofit2.Retrofit;
 
@@ -10,7 +10,7 @@ public class TunesAdapter {
     TunesSongsSource tunesRestAdapter;
 
     public TunesAdapter() {
-        tunesRestAdapter = new TunesSongsSource();
+        tunesRestAdapter = new TunesSongsSource(null);
         Retrofit retrofit = tunesRestAdapter.getRetrofit();
         tunesService = retrofit.create(TunesService.class);
     }

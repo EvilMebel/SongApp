@@ -1,8 +1,9 @@
-package com.apps.zientara.rafal.songs.impl.example.sources;
+package com.apps.zientara.rafal.songs.impl.sources;
 
+import com.apps.rafal.zientara.songs.core.loggers.Logger;
 import com.apps.zientara.rafal.songs.impl.models.FakeSong;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
-import com.apps.rafal.zientara.songs.core.searching.SongsSource;
+import com.apps.rafal.zientara.songs.core.sources.SongsSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,18 +13,20 @@ import java.util.Random;
  * Created by Evil on 29.08.2017.
  */
 
-public class FakeSongsSource implements SongsSource {
-
-    public static final int FAKE_LOADING_MILLIS = 300;
+public class FakeSongsSource extends SongsSource {
+    private static final int FAKE_LOADING_MILLIS = 300;
     private final Random random;
 
-    public FakeSongsSource() {
+    public FakeSongsSource(Logger logger) {
+        super(logger);
         random = new Random();
     }
 
     @Override
     public List<SongModel> searchSongs(String searchPhrase) {
-        int recordsCount = random.nextInt(6);
+        if(searchPhrase.length() > 10)
+            return new ArrayList<>();
+        int recordsCount = random.nextInt(6) + 1;
         return getFakeSongModels(recordsCount);
     }
 

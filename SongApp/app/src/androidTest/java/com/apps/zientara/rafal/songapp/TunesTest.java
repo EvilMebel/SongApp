@@ -1,19 +1,13 @@
 package com.apps.zientara.rafal.songapp;
 
 import com.apps.rafal.zientara.songs.core.model.SongModel;
-import com.apps.zientara.rafal.songs.impl.example.sources.TunesSongsSource;
-import com.apps.zientara.rafal.songs.impl.models.tunes.TunesFrame;
-import com.apps.zientara.rafal.songs.impl.example.retrofit.TunesAdapter;
-import com.apps.zientara.rafal.songs.impl.example.retrofit.services.TunesService;
+import com.apps.zientara.rafal.songs.impl.sources.TunesSongsSource;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Response;
 
 import static org.junit.Assert.assertEquals;
 

@@ -2,11 +2,13 @@ package com.apps.zientara.rafal.songapp;
 
 import android.content.Context;
 
-import com.apps.rafal.zientara.songs.core.searching.SongsSource;
-import com.apps.zientara.rafal.songs.impl.BaseSearchEngine;
-import com.apps.zientara.rafal.songs.impl.example.sources.FakeSongsSource;
-import com.apps.zientara.rafal.songs.impl.example.sources.JsonSongSource;
-import com.apps.zientara.rafal.songs.impl.example.sources.TunesSongsSource;
+import com.apps.rafal.zientara.songs.core.loggers.Logger;
+import com.apps.rafal.zientara.songs.core.sources.SongsSource;
+import com.apps.zientara.rafal.songapp.preferences.DataSourcePreferences;
+import com.apps.rafal.zientara.songs.core.BaseSearchEngine;
+import com.apps.zientara.rafal.songs.impl.sources.FakeSongsSource;
+import com.apps.zientara.rafal.songs.impl.sources.JsonSongsSource;
+import com.apps.zientara.rafal.songs.impl.sources.TunesSongsSource;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,28 +19,39 @@ import java.util.List;
  */
 
 public class SearchEngine extends BaseSearchEngine {
+    private FakeSongsSource fakeSongsSource;
+    private JsonSongsSource jsonSongsSource;
+    private TunesSongsSource tunesSongsSource;
 
-    private JsonSongSource jsonSongSource = null;
+    public SearchEngine(Logger logger, Context context) {
+        super(logger);
+        addSongSources(songsSources, context);
+        refreshSourcesEnableState(context);
+    }
 
-    public SearchEngine(Context context) {
-        String filePath = "songs-list.json";
-        prepareJsonSongSource(context, filePath);
+    public void refreshSourcesEnableState(Context context) {
+        DataSourcePreferences preferences = new DataSourcePreferences(context);
+        fakeSongsSource.setEnabled(preferences.isFakeDataEnabled());
+        jsonSongsSource.setEnabled(preferences.isLocalDbEnabled());
+        tunesSongsSource.setEnabled(preferences.isTunesEnabled());
     }
 
     private void prepareJsonSongSource(Context context, String filePath) {
         try {
             InputStream inputStream = context.getAssets().open(filePath);
-            jsonSongSource = new JsonSongSource(inputStream);
+            jsonSongsSource = new JsonSongsSource(logger, inputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
-    protected void prepareSongSources(List<SongsSource> songsSources) {
-        songsSources.add(new FakeSongsSource());
-        songsSources.add(new TunesSongsSource());
-        if (jsonSongSource != null)
-            songsSources.add(jsonSongSource);
+    private void addSongSources(List<SongsSource> songsSources, Context context) {
+        String filePath = "songs-list.json";
+        prepareJsonSongSource(context, filePath);
+        songsSources.add(jsonSongsSource);
+        fakeSongsSource = new FakeSongsSource(logger);
+        songsSources.add(fakeSongsSource);
+        tunesSongsSource = new TunesSongsSource(logger);
+        songsSources.add(tunesSongsSource);
     }
 }

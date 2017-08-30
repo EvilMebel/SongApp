@@ -9,6 +9,6 @@ import com.apps.rafal.zientara.songs.core.model.SongModel;
 public class SongModelMatcher {
     public static boolean matches(SongModel songModel, String word) {
         return songModel.getArtist().contains(word) ||
-                songModel.getSongName().contains(word);
+                songModel.getSongName().toLowerCase().contains(word.toLowerCase());
     }
 }
