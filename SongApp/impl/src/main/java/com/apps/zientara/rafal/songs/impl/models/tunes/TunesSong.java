@@ -1,5 +1,6 @@
 package com.apps.zientara.rafal.songs.impl.models.tunes;
 
+import com.apps.rafal.zientara.songs.core.helpers.SongModelMatcher;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.google.gson.annotations.SerializedName;
 
@@ -11,7 +12,7 @@ public class TunesSong implements SongModel {
     @SerializedName("wrapperType")
     String wrapperType;
 
-    @SerializedName("\"kind\"")
+    @SerializedName("kind")
     String kind;
 
     @SerializedName("artistId")
@@ -359,5 +360,18 @@ public class TunesSong implements SongModel {
     @Override
     public String getSongName() {
         return trackName;
+    }
+
+    @Override
+    public boolean matchesQuery(String[] words) {
+        for (String word : words) {
+            if (matchesAny(word))
+                return true;
+        }
+        return false;
+    }
+
+    private boolean matchesAny(String word) {
+        return SongModelMatcher.matches(this, word);//// TODO: 29.08.2017 check more
     }
 }

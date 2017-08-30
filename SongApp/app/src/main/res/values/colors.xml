@@ -2,5 +2,16 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#009688</color>
+
+    <color name="textColor">@android:color/white</color>
+    <color name="textColorSecond">#BDBDBD</color>
+    <color name="textColorSoft">#4CAF50</color>
+
+    <color name="dividerBackground">#4CAF50</color>
+
+    <!--Settings fragment-->
+    <color name="settingsFragmentBackground">#212121</color>
+    <color name="settingsFragmentText">#F5F5F5</color>
+
 </resources>

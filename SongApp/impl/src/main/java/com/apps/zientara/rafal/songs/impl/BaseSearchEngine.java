@@ -15,31 +15,24 @@ import java.util.List;
  * Created by Evil on 29.08.2017.
  */
 
-public class SearchEngine {
-    private final FakeSongsSource fakeSongsSource;
-    private final TunesSongsSource tunesSongsSource;
+public abstract class BaseSearchEngine {
     List<SongsSource> songsSources;
     private Comparator<SongModel> songsComparator;
 
-    public SearchEngine() {
-        songsSources = new ArrayList<>();
-        fakeSongsSource = new FakeSongsSource();
-        songsSources.add(fakeSongsSource);
-        tunesSongsSource = new TunesSongsSource();
-        songsSources.add(tunesSongsSource);
-
+    public BaseSearchEngine() {
         songsComparator = new DefaultSongsComparator();
-        //// TODO: 29.08.2017 add search engines
+        songsSources = new ArrayList<>();
+        prepareSongSources(songsSources);
     }
 
+    protected abstract void prepareSongSources(List<SongsSource> songsSources);
     //// TODO: 29.08.2017 sorting
     public List<SongModel> search(String searchPhrase) {
         //// TODO: 29.08.2017 search by name in all engines
-        List<SongModel> fakeSongModels = fakeSongsSource.searchSongs(searchPhrase);
-        List<SongModel> tunesSongModels = tunesSongsSource.searchSongs(searchPhrase);
         List<SongModel> output = new ArrayList<>();
-        output.addAll(fakeSongModels);
-        output.addAll(tunesSongModels);
+        for(SongsSource source : songsSources) {
+            output.addAll(source.searchSongs(searchPhrase));
+        }
         Collections.sort(output, songsComparator);
         return output;
     }

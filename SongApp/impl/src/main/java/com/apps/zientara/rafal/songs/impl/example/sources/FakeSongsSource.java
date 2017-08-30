@@ -1,6 +1,6 @@
 package com.apps.zientara.rafal.songs.impl.example.sources;
 
-import com.apps.zientara.rafal.songs.impl.example.FakeSong;
+import com.apps.zientara.rafal.songs.impl.models.FakeSong;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.rafal.zientara.songs.core.searching.SongsSource;
 

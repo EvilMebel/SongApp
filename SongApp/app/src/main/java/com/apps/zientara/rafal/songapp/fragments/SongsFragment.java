@@ -5,8 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +13,10 @@ import android.widget.ProgressBar;
 
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.zientara.rafal.songapp.R;
+import com.apps.zientara.rafal.songapp.SearchEngine;
 import com.apps.zientara.rafal.songapp.adapters.SongsAdapter;
 import com.apps.zientara.rafal.songapp.observables.SearchObservable;
-import com.apps.zientara.rafal.songs.impl.SearchEngine;
+import com.apps.zientara.rafal.songs.impl.BaseSearchEngine;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -25,19 +24,15 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.BehaviorSubject;
 
 public class SongsFragment extends Fragment {
-    private SearchEngine searchEngine;
+    private BaseSearchEngine searchEngine;
     private SongsAdapter songsAdapter;
 
     @BindView(R.id.songsFragment_recyclerView)
@@ -53,7 +48,7 @@ public class SongsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        searchEngine = new SearchEngine();
+        searchEngine = new SearchEngine(getActivity());
     }
 
     @Override
@@ -72,7 +67,7 @@ public class SongsFragment extends Fragment {
     }
 
     private void prepareRecyclerViewAdapter() {
-        songsAdapter = new SongsAdapter(getActivity().getApplicationContext());
+        songsAdapter = new SongsAdapter(getActivity());
         recyclerView.setAdapter(songsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }

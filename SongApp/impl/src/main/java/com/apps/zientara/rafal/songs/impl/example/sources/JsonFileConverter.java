@@ -1,4 +1,4 @@
-package com.apps.zientara.rafal.songapp;
+package com.apps.zientara.rafal.songs.impl.example.sources;
 
 import com.apps.zientara.rafal.songs.impl.example.retrofit.IntegerTypeAdapter;
 import com.apps.zientara.rafal.songs.impl.models.TooplooxSong;

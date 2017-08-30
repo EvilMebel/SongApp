@@ -1,5 +1,6 @@
-package com.apps.zientara.rafal.songs.impl.example;
+package com.apps.zientara.rafal.songs.impl.models;
 
+import com.apps.rafal.zientara.songs.core.helpers.SongModelMatcher;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 
 import java.util.Random;
@@ -29,5 +30,18 @@ public class FakeSong implements SongModel {
     @Override
     public String getSongName() {
         return songName;
+    }
+
+    @Override
+    public boolean matchesQuery(String[] words) {
+        for (String word : words) {
+            if (matchesAny(word))
+                return true;
+        }
+        return false;
+    }
+
+    private boolean matchesAny(String word) {
+        return SongModelMatcher.matches(this, word);
     }
 }
