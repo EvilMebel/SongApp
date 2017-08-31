@@ -16,6 +16,8 @@ import com.apps.zientara.rafal.songapp.SearchEngine;
 import com.apps.zientara.rafal.songapp.adapters.SongsAdapter;
 import com.apps.zientara.rafal.songapp.loggers.ConsoleLogger;
 import com.apps.zientara.rafal.songapp.observables.SearchObservable;
+import com.apps.zientara.rafal.songapp.preferences.DataOrderPreferences;
+import com.apps.zientara.rafal.songapp.preferences.enums.CriteriaTypeEnum;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -32,10 +34,11 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SongsFragment extends BaseFragment {
     private static final int LOADING_TIME_OFFSET = 100;//300;
-    private SearchEngine searchEngine;
-    private Disposable searchDisposable;
-    private SongsAdapter songsAdapter;
     private ConsoleLogger consoleLogger;
+    private DataOrderPreferences dataOrderPreferences;
+    private Disposable searchDisposable;
+    private SearchEngine searchEngine;
+    private SongsAdapter songsAdapter;
 
     @BindView(R.id.songsFragment_recyclerView)
     RecyclerView recyclerView;
@@ -50,7 +53,8 @@ public class SongsFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         consoleLogger = new ConsoleLogger();
-        searchEngine = new SearchEngine(consoleLogger, getActivity());
+        searchEngine = new SearchEngine(consoleLogger, getActivity().getApplicationContext());
+        dataOrderPreferences = DataOrderPreferences.getInstance(getActivity().getApplicationContext());
     }
 
     @Override
@@ -98,6 +102,7 @@ public class SongsFragment extends BaseFragment {
                     @Override
                     public List<SongModel> apply(String query) {
                         searchEngine.refreshSourcesEnableState(getContext().getApplicationContext());
+                        searchEngine.refreshSongsComparator(dataOrderPreferences);
                         if (query == null || query.isEmpty())
                             return searchEngine.getAll();
                         return searchEngine.search(query);

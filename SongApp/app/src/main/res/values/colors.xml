@@ -13,5 +13,6 @@
     <!--Settings fragment-->
     <color name="settingsFragmentBackground">#212121</color>
     <color name="settingsFragmentText">#F5F5F5</color>
+    <color name="settingsFragmentTextHeader">#4CAF50</color>
 
 </resources>

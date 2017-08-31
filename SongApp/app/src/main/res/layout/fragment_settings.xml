@@ -13,44 +13,89 @@
         android:padding="@dimen/medium_padding">
 
         <TextView
+            style="@style/SettingsTextHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/medium_padding"
-            android:text="Data sources"
-            android:textColor="@color/textColorSoft"
-            android:textSize="@dimen/text_size_big" />
+            android:text="Data sources" />
 
         <Switch
             android:id="@+id/settingsFragment_useLocalDatabaseSwitch"
+            style="@style/SettingsText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/medium_padding"
-            android:text="Local database"
-            android:textColor="@color/settingsFragmentText" />
+            android:text="Local database" />
 
 
         <Switch
             android:id="@+id/settingsFragment_useFakeDataSwitch"
+            style="@style/SettingsText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/medium_padding"
-            android:text="Fake database"
-            android:textColor="@color/settingsFragmentText" />
+            android:text="Fake database" />
 
         <Switch
             android:id="@+id/settingsFragment_useTunesSwitch"
+            style="@style/SettingsText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/medium_padding"
-            android:text="iTunes"
-            android:textColor="@color/settingsFragmentText" />
-
+            android:text="iTunes" />
 
         <View
             android:layout_width="match_parent"
-            android:background="@color/dividerBackground"
             android:layout_height="@dimen/divider_height"
-            android:layout_margin="@dimen/big_padding"/>
-    </LinearLayout>
+            android:layout_margin="@dimen/big_padding"
+            android:background="@color/dividerBackground" />
 
+        <TextView
+            style="@style/SettingsTextHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/medium_padding"
+            android:text="Searching order" />
+
+        <Switch
+            android:id="@+id/settingsFragment_searchingOrderDescendingSwitch"
+            style="@style/SettingsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/medium_padding"
+            android:text="@string/descending" />
+
+        <RadioGroup
+            android:id="@+id/settingsFragment_searchingCriteriaRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/settingsFragment_searchingCriteriaSongNameRadioButton"
+                style="@style/SettingsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Song name" />
+
+            <RadioButton
+                android:id="@+id/settingsFragment_searchingCriteriaArtistRadioButton"
+                style="@style/SettingsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Artist" />
+
+            <RadioButton
+                android:id="@+id/settingsFragment_searchingCriteriaDateRadioButton"
+                style="@style/SettingsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Date" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+    
 </ScrollView>

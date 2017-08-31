@@ -16,4 +16,15 @@
         <item name="android:textColor">@color/textColorSecond</item>
     </style>
 
+    <style name="SettingsText">
+        <item name="android:textColor">@color/settingsFragmentText</item>
+        <item name="android:padding">@dimen/medium_padding</item>
+    </style>
+
+    <style name="SettingsTextHeader">
+        <item name="android:textColor">@color/settingsFragmentTextHeader</item>
+        <item name="android:textSize">@dimen/text_size_big</item>
+        <item name="android:padding">@dimen/medium_padding</item>
+    </style>
+
 </resources>

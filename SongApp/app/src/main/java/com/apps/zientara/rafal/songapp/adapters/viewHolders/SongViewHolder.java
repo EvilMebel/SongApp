@@ -1,4 +1,4 @@
-package com.apps.zientara.rafal.songapp.adapters;
+package com.apps.zientara.rafal.songapp.adapters.viewHolders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,7 +10,7 @@ import com.apps.zientara.rafal.songapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-class SongViewHolder extends RecyclerView.ViewHolder {
+public class SongViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.songItem_artistText)
     TextView artistText;
@@ -33,7 +33,7 @@ class SongViewHolder extends RecyclerView.ViewHolder {
     }
 
     private String getYearText(SongModel song) {
-        if (song.getReleaseYear() != null)
+        if (song.getReleaseYear() != null && song.getReleaseYear() != -1)
             return Integer.toString(song.getReleaseYear());
         return "";
     }

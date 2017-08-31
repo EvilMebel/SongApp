@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.apps.zientara.rafal.songapp.R;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
+import com.apps.zientara.rafal.songapp.adapters.viewHolders.SongViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

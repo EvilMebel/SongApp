@@ -2,10 +2,16 @@ package com.apps.zientara.rafal.songapp;
 
 import android.content.Context;
 
-import com.apps.rafal.zientara.songs.core.loggers.Logger;
-import com.apps.rafal.zientara.songs.core.sources.SongsSource;
-import com.apps.zientara.rafal.songapp.preferences.DataSourcePreferences;
 import com.apps.rafal.zientara.songs.core.BaseSearchEngine;
+import com.apps.rafal.zientara.songs.core.loggers.Logger;
+import com.apps.rafal.zientara.songs.core.sorting.AbstractSongsComparator;
+import com.apps.rafal.zientara.songs.core.sorting.ArtistComparator;
+import com.apps.rafal.zientara.songs.core.sorting.SongsNameComparator;
+import com.apps.rafal.zientara.songs.core.sorting.SongsYearComparator;
+import com.apps.rafal.zientara.songs.core.sources.SongsSource;
+import com.apps.zientara.rafal.songapp.preferences.DataOrderPreferences;
+import com.apps.zientara.rafal.songapp.preferences.DataSourcePreferences;
+import com.apps.zientara.rafal.songapp.preferences.enums.CriteriaTypeEnum;
 import com.apps.zientara.rafal.songs.impl.sources.FakeSongsSource;
 import com.apps.zientara.rafal.songs.impl.sources.JsonSongsSource;
 import com.apps.zientara.rafal.songs.impl.sources.TunesSongsSource;
@@ -53,5 +59,27 @@ public class SearchEngine extends BaseSearchEngine {
         songsSources.add(fakeSongsSource);
         tunesSongsSource = new TunesSongsSource(logger);
         songsSources.add(tunesSongsSource);
+    }
+
+    public void setSongsComparator(CriteriaTypeEnum soritngCriteria) {
+        AbstractSongsComparator comparator = getSongComparatorByEnum(soritngCriteria);
+        setSongsComparator(comparator);
+    }
+
+    private AbstractSongsComparator getSongComparatorByEnum(CriteriaTypeEnum sortingCriteria) {
+        switch (sortingCriteria) {
+            case ARTIST:
+                return new ArtistComparator();
+            case DATE:
+                return new SongsYearComparator();
+            case SONG_NAME:
+            default:
+                return new SongsNameComparator();
+        }
+    }
+
+    public void refreshSongsComparator(DataOrderPreferences dataOrderPreferences) {
+        setSongsComparator(dataOrderPreferences.getSortingCriteria());
+        getSongsComparator().setDescending(dataOrderPreferences.isDescending());
     }
 }
