@@ -8,6 +8,7 @@ import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.rafal.zientara.songs.core.sorting.AbstractSongsComparator;
 import com.apps.rafal.zientara.songs.core.sources.SongsSource;
 import com.apps.rafal.zientara.songs.core.sorting.SongsNameComparator;
+import com.apps.rafal.zientara.songs.core.sources.SourcesSynchronizer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +20,7 @@ import java.util.List;
  */
 
 public abstract class BaseSearchEngine {
+    private final SourcesSynchronizer sourcesSynchronizer;
     protected List<SongsSource> songsSources;
     private AbstractSongsComparator songsComparator;
     protected Logger logger;
@@ -27,6 +29,7 @@ public abstract class BaseSearchEngine {
         this.logger = logger;
         songsComparator = new SongsNameComparator();
         songsSources = new ArrayList<>();
+        sourcesSynchronizer = new SourcesSynchronizer();
         logger.info("Ready!");
     }
 
@@ -48,13 +51,7 @@ public abstract class BaseSearchEngine {
     }
 
     private List<SongModel> getSongModels(SongSourceCriteria criteria) {
-        List<SongModel> output = new ArrayList<>();
-        for (SongsSource source : songsSources) {
-            if (source.isEnabled())
-                output.addAll(criteria.getData(source));
-            else
-                logger.info(source.getClass().getSimpleName() + " is disabled");
-        }
+        List<SongModel> output = new SourcesSynchronizer().getSongModelsSync(criteria, songsSources);
         Collections.sort(output, songsComparator);
         return output;
     }
