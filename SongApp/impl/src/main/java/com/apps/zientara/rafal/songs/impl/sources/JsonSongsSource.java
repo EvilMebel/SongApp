@@ -1,5 +1,6 @@
 package com.apps.zientara.rafal.songs.impl.sources;
 
+import com.apps.rafal.zientara.songs.core.helpers.SongModelMatcher;
 import com.apps.rafal.zientara.songs.core.loggers.Logger;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.rafal.zientara.songs.core.sources.SongsSource;
@@ -26,13 +27,7 @@ public class JsonSongsSource extends SongsSource {
 
     @Override
     public List<SongModel> searchSongs(String searchPhrase) {
-        String[] words = searchPhrase.split(" ");
-        List<SongModel> output = new ArrayList<>();
-        for (SongModel song : songs) {
-            if (song.matchesQuery(words))
-                output.add(song);
-        }
-        return output;
+        return SongModelMatcher.searchSongs(searchPhrase, songs);
     }
 
     @Override

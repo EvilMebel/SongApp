@@ -44,14 +44,6 @@ public class TooplooxSong implements SongModel {
 
     @Override
     public boolean matchesQuery(String[] words) {
-        for (String word : words) {
-            if (matchesAny(word))
-                return true;
-        }
-        return false;
-    }
-
-    private boolean matchesAny(String word) {
-        return SongModelMatcher.matches(this, word);//// TODO: 29.08.2017 check more
+        return SongModelMatcher.defaultMatchesQuery(words, this);
     }
 }

@@ -24,7 +24,7 @@ public class FakeSongsSource extends SongsSource {
 
     @Override
     public List<SongModel> searchSongs(String searchPhrase) {
-        if(searchPhrase.length() > 10)
+        if (searchPhrase.length() > 10)
             return new ArrayList<>();
         int recordsCount = random.nextInt(6) + 1;
         return getFakeSongModels(recordsCount);

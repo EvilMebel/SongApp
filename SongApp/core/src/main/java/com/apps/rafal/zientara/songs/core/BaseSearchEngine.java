@@ -14,12 +14,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * Created by Evil on 29.08.2017.
- */
-
 public abstract class BaseSearchEngine {
-    protected List<SongsSource> songsSources;
+    private List<SongsSource> songsSources;
     private AbstractSongsComparator songsComparator;
     protected Logger logger;
 
@@ -38,12 +34,12 @@ public abstract class BaseSearchEngine {
         this.songsComparator = songsComparator;
     }
 
-    public List<SongModel> search(String searchPhrase) {
+    public List<SongModel> searchSongs(String searchPhrase) {
         logger.info(String.format("Searching... %s", searchPhrase));
         return getSongModels(new SearchSongsCriteria(searchPhrase));
     }
 
-    public List<SongModel> getAll() {
+    public List<SongModel> getAllSongs() {
         return getSongModels(new AllSongsCriteria());
     }
 
@@ -57,5 +53,13 @@ public abstract class BaseSearchEngine {
         }
         Collections.sort(output, songsComparator);
         return output;
+    }
+
+    public boolean removeSongSource(SongsSource songsSource) {
+        return songsSources.remove(songsSource);
+    }
+
+    public void addSongSource(SongsSource songsSource) {
+        songsSources.add(songsSource);
     }
 }

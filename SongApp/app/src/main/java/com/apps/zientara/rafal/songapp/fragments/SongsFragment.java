@@ -17,7 +17,6 @@ import com.apps.zientara.rafal.songapp.adapters.SongsAdapter;
 import com.apps.zientara.rafal.songapp.loggers.ConsoleLogger;
 import com.apps.zientara.rafal.songapp.observables.SearchObservable;
 import com.apps.zientara.rafal.songapp.preferences.DataOrderPreferences;
-import com.apps.zientara.rafal.songapp.preferences.enums.CriteriaTypeEnum;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -104,8 +103,8 @@ public class SongsFragment extends BaseFragment {
                         searchEngine.refreshSourcesEnableState(getContext().getApplicationContext());
                         searchEngine.refreshSongsComparator(dataOrderPreferences);
                         if (query == null || query.isEmpty())
-                            return searchEngine.getAll();
-                        return searchEngine.search(query);
+                            return searchEngine.getAllSongs();
+                        return searchEngine.searchSongs(query);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())

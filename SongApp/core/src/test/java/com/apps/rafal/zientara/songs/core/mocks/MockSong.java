@@ -1,30 +1,32 @@
-package com.apps.zientara.rafal.songs.impl.models;
+package com.apps.rafal.zientara.songs.core.mocks;
 
 import com.apps.rafal.zientara.songs.core.helpers.SongModelMatcher;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 
-import java.util.Random;
-
 /**
- * Created by Evil on 29.08.2017.
+ * Created by Evil on 02.09.2017.
  */
 
-public class FakeSong implements SongModel {
+public class MockSong implements SongModel {
 
-    String songName;
+    private String artist;
+    private String songName;
+    private Integer releaseYear;
 
-    public FakeSong() {
-        songName = "Lol" + new Random().nextInt(1000);
+    public MockSong(String artist, String songName, Integer releaseYear) {
+        this.artist = artist;
+        this.songName = songName;
+        this.releaseYear = releaseYear;
     }
 
     @Override
     public String getArtist() {
-        return "Popek";
+        return artist;
     }
 
     @Override
     public Integer getReleaseYear() {
-        return 2017;
+        return releaseYear;
     }
 
     @Override
@@ -36,5 +38,4 @@ public class FakeSong implements SongModel {
     public boolean matchesQuery(String[] words) {
         return SongModelMatcher.defaultMatchesQuery(words, this);
     }
-
 }

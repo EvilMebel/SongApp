@@ -31,7 +31,7 @@ public class SearchEngine extends BaseSearchEngine {
 
     public SearchEngine(Logger logger, Context applicationContext) {
         super(logger);
-        addSongSources(songsSources, applicationContext);
+        addSongSources(applicationContext);
         refreshSourcesEnableState(applicationContext);
     }
 
@@ -51,14 +51,14 @@ public class SearchEngine extends BaseSearchEngine {
         }
     }
 
-    private void addSongSources(List<SongsSource> songsSources, Context applicationContext) {
+    private void addSongSources(Context applicationContext) {
         String filePath = "songs-list.json";
         prepareJsonSongSource(applicationContext, filePath);
-        songsSources.add(jsonSongsSource);
+        addSongSource(jsonSongsSource);
         fakeSongsSource = new FakeSongsSource(logger);
-        songsSources.add(fakeSongsSource);
+        addSongSource(fakeSongsSource);
         tunesSongsSource = new TunesSongsSource(logger);
-        songsSources.add(tunesSongsSource);
+        addSongSource(tunesSongsSource);
     }
 
     public void setSongsComparator(CriteriaTypeEnum soritngCriteria) {
