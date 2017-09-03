@@ -13,8 +13,7 @@ public class FakeSongsSource extends SongsSource {
     private static final int FAKE_LOADING_MILLIS = 300;
     private final Random random;
 
-    public FakeSongsSource(Logger logger) {
-        super(logger);
+    public FakeSongsSource() {
         random = new Random();
     }
 

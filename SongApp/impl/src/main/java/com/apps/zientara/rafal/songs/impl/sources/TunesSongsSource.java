@@ -22,8 +22,7 @@ public class TunesSongsSource extends SongsSource {
     private final Retrofit retrofit;
     private final TunesService tunesService;
 
-    public TunesSongsSource(Logger logger) {
-        super(logger);
+    public TunesSongsSource() {
         retrofit = createRestAdapter(TunesService.TUNES_URL);
         tunesService = retrofit.create(TunesService.class);
     }

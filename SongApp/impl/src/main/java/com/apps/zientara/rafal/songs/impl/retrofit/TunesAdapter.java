@@ -10,7 +10,7 @@ public class TunesAdapter {
     TunesSongsSource tunesRestAdapter;
 
     public TunesAdapter() {
-        tunesRestAdapter = new TunesSongsSource(null);
+        tunesRestAdapter = new TunesSongsSource();
         Retrofit retrofit = tunesRestAdapter.getRetrofit();
         tunesService = retrofit.create(TunesService.class);
     }

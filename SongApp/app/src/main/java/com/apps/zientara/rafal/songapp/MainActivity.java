@@ -40,7 +40,6 @@ public class MainActivity extends BaseActivity implements SongsFragment.Interact
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                hideKeyboard();
                 openSettingsFragment();
                 return true;
         }
@@ -59,14 +58,6 @@ public class MainActivity extends BaseActivity implements SongsFragment.Interact
 
     private Fragment getActiveFragment() {
         return getSupportFragmentManager().findFragmentById(R.id.mainActivity_fragmentContainer);
-    }
-
-    protected void hideKeyboard() {
-        InputMethodManager inputManager = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.apps.rafal.zientara.songs.core.helpers.SongHelper;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.zientara.rafal.songapp.R;
 
@@ -28,13 +29,8 @@ public class SongViewHolder extends RecyclerView.ViewHolder {
 
     public void updateFields(SongModel song) {
         artistText.setText(song.getArtist());
-        releaseYearText.setText(getYearText(song));
+        releaseYearText.setText(SongHelper.getYearText(song));
         songNameText.setText(song.getSongName());
     }
 
-    private String getYearText(SongModel song) {
-        if (song.getReleaseYear() != null && song.getReleaseYear() != -1)
-            return Integer.toString(song.getReleaseYear());
-        return "";
-    }
 }

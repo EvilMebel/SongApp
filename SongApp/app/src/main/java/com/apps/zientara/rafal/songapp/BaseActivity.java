@@ -1,5 +1,6 @@
 package com.apps.zientara.rafal.songapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -7,8 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
-import com.apps.zientara.rafal.songapp.fragments.SongsFragment;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 public abstract class BaseActivity extends AppCompatActivity {
     private static final int ENTER_ANIM = android.R.anim.slide_in_left;
@@ -24,6 +25,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         } else
             transaction.replace(R.id.mainActivity_fragmentContainer, fragment);
         transaction.commit();
+        hideKeyboard();
+    }
+
+    protected void hideKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        View currentFocus = getCurrentFocus();
+        if (currentFocus != null)
+            inputManager.hideSoftInputFromWindow(currentFocus.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     @Override

@@ -14,7 +14,7 @@ public class JsonSongsSource extends SongsSource {
     private final List<SongModel> songs;
 
     public JsonSongsSource(Logger logger, InputStream inputStream) {
-        super(logger);
+        this.logger = logger;
         JsonFileConverter converter = new JsonFileConverter();
         songs = converter.getSongs(inputStream);
         logger.info("JSON Songs count: " + songs.size());

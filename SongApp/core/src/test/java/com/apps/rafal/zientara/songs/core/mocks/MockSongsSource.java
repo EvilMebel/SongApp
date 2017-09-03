@@ -15,8 +15,7 @@ import java.util.List;
 public class MockSongsSource extends SongsSource {
     List<SongModel> songModels;
 
-    public MockSongsSource(Logger logger, List<SongModel> songModels) {
-        super(logger);
+    public MockSongsSource(List<SongModel> songModels) {
         this.songModels = songModels;
     }
 

@@ -13,7 +13,11 @@ public abstract class SongsSource {
     private boolean isEnabled;
     protected Logger logger;
 
-    public SongsSource(Logger logger) {
+    public Logger getLogger() {
+        return logger;
+    }
+
+    public void setLogger(Logger logger) {
         this.logger = logger;
     }
 

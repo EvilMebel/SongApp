@@ -69,7 +69,8 @@ public class BaseSearchEngineTest {
 
     private void addSongsSourceWithRecordsCount(int songsCount) {
         ArrayList<SongModel> songModels = getSongModels(songsCount);
-        MockSongsSource songsSource = new MockSongsSource(logger, songModels);
+        MockSongsSource songsSource = new MockSongsSource(songModels);
+        songsSource.setLogger(logger);
         songsSource.setEnabled(true);
         searchEngine.addSongSource(songsSource);
     }

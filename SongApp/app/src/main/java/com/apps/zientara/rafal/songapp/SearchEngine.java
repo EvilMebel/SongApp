@@ -52,12 +52,26 @@ public class SearchEngine extends BaseSearchEngine {
     }
 
     private void addSongSources(Context applicationContext) {
+        addJsonSongsSource(applicationContext);
+        addFakeSongsSource();
+        addTunesSongsSource();
+    }
+
+    private void addJsonSongsSource(Context applicationContext) {
         String filePath = "songs-list.json";
         prepareJsonSongSource(applicationContext, filePath);
         addSongSource(jsonSongsSource);
-        fakeSongsSource = new FakeSongsSource(logger);
+    }
+
+    private void addFakeSongsSource() {
+        fakeSongsSource = new FakeSongsSource();
+        fakeSongsSource.setLogger(logger);
         addSongSource(fakeSongsSource);
-        tunesSongsSource = new TunesSongsSource(logger);
+    }
+
+    private void addTunesSongsSource() {
+        tunesSongsSource = new TunesSongsSource();
+        tunesSongsSource.setLogger(logger);
         addSongSource(tunesSongsSource);
     }
 
