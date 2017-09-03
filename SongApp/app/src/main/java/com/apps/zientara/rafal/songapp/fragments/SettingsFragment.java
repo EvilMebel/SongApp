@@ -36,8 +36,8 @@ public class SettingsFragment extends BaseFragment {
     @BindView(R.id.settingsFragment_useTunesSwitch)
     Switch useTunesSwitch;
 
-    @BindView(R.id.settingsFragment_searchingOrderDescendingSwitch)
-    Switch searchingOrderDescendingSwitch;
+    @BindView(R.id.settingsFragment_searchingOrderAscendingSwitch)
+    Switch searchingOrderAscendingSwitch;
 
     @BindView(R.id.settingsFragment_searchingCriteriaRadioGroup)
     RadioGroup searchingCriteriaRadioGroup;
@@ -73,7 +73,7 @@ public class SettingsFragment extends BaseFragment {
 
     private void refreshView() {
         refreshSoungSources();
-        searchingOrderDescendingSwitch.setChecked(dataOrderPreferences.isDescending());
+        searchingOrderAscendingSwitch.setChecked(dataOrderPreferences.isAscending());
         refreshSearchingCriteria();
     }
 
@@ -133,10 +133,10 @@ public class SettingsFragment extends BaseFragment {
     }
 
     private void setSearchOrderListener() {
-        searchingOrderDescendingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        searchingOrderAscendingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean newValue) {
-                dataOrderPreferences.setDescending(newValue);
+                dataOrderPreferences.setAscending(newValue);
             }
         });
     }

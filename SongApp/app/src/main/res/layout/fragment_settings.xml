@@ -58,12 +58,12 @@
             android:text="Searching order" />
 
         <Switch
-            android:id="@+id/settingsFragment_searchingOrderDescendingSwitch"
+            android:id="@+id/settingsFragment_searchingOrderAscendingSwitch"
             style="@style/SettingsText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/medium_padding"
-            android:text="@string/descending" />
+            android:text="@string/ascending" />
 
         <RadioGroup
             android:id="@+id/settingsFragment_searchingCriteriaRadioGroup"

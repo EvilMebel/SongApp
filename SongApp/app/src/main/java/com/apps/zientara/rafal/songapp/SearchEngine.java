@@ -8,7 +8,6 @@ import com.apps.rafal.zientara.songs.core.sorting.AbstractSongsComparator;
 import com.apps.rafal.zientara.songs.core.sorting.ArtistComparator;
 import com.apps.rafal.zientara.songs.core.sorting.SongsNameComparator;
 import com.apps.rafal.zientara.songs.core.sorting.SongsYearComparator;
-import com.apps.rafal.zientara.songs.core.sources.SongsSource;
 import com.apps.zientara.rafal.songapp.preferences.DataOrderPreferences;
 import com.apps.zientara.rafal.songapp.preferences.DataSourcePreferences;
 import com.apps.zientara.rafal.songapp.preferences.enums.CriteriaTypeEnum;
@@ -18,7 +17,6 @@ import com.apps.zientara.rafal.songs.impl.sources.TunesSongsSource;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 /**
  * Created by Evil on 29.08.2017.
@@ -94,6 +92,6 @@ public class SearchEngine extends BaseSearchEngine {
 
     public void refreshSongsComparator(DataOrderPreferences dataOrderPreferences) {
         setSongsComparator(dataOrderPreferences.getSortingCriteria());
-        getSongsComparator().setDescending(dataOrderPreferences.isDescending());
+        getSongsComparator().setAscending(dataOrderPreferences.isAscending());
     }
 }

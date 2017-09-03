@@ -6,17 +6,18 @@ import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.rafal.zientara.songs.core.sources.SongsSource;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
-/**
- * Created by Evil on 02.09.2017.
- */
 
 public class MockSongsSource extends SongsSource {
     List<SongModel> songModels;
 
     public MockSongsSource(List<SongModel> songModels) {
         this.songModels = songModels;
+    }
+
+    public MockSongsSource(SongModel[] songModels) {
+        this.songModels = new ArrayList<>(Arrays.asList(songModels));
     }
 
     @Override

@@ -3,10 +3,6 @@ package com.apps.rafal.zientara.songs.core.mocks;
 import com.apps.rafal.zientara.songs.core.helpers.SongModelMatcher;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 
-/**
- * Created by Evil on 02.09.2017.
- */
-
 public class MockSong implements SongModel {
 
     private String artist;
@@ -37,5 +33,14 @@ public class MockSong implements SongModel {
     @Override
     public boolean matchesQuery(String[] words) {
         return SongModelMatcher.defaultMatchesQuery(words, this);
+    }
+
+    @Override
+    public String toString() {
+        return "MockSong{" +
+                "artist='" + artist + '\'' +
+                ", songName='" + songName + '\'' +
+                ", releaseYear=" + releaseYear +
+                '}';
     }
 }

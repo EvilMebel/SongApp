@@ -9,12 +9,12 @@ import com.apps.zientara.rafal.songapp.preferences.enums.CriteriaTypeEnum;
  */
 
 public class DataOrderPreferences extends AbstractPreferences {
-    private static final String SETTINGS_IS_DESCENDING_KEY = "SETTINGS_IS_DESCENDING_KEY";
+    private static final String SETTINGS_IS_ASCENDING_KEY = "SETTINGS_IS_ASCENDING_KEY";
     private static final String SETTINGS_SORTING_CRITERIA_KEY = "SETTINGS_SORTING_CRITERIA_KEY";
-    private static final boolean IS_DESCENDING_DEFAULT = true;
+    private static final boolean IS_ASCENDING_DEFAULT = true;
     private static DataOrderPreferences instance;
     private CriteriaTypeEnum sortingCriteria;
-    private boolean isDescending;
+    private boolean isAscending;
 
     DataOrderPreferences(Context context) {
         super(context);
@@ -27,7 +27,7 @@ public class DataOrderPreferences extends AbstractPreferences {
     }
 
     public void refreshData() {
-        isDescending = preferences.getBoolean(SETTINGS_IS_DESCENDING_KEY, IS_DESCENDING_DEFAULT);
+        isAscending = preferences.getBoolean(SETTINGS_IS_ASCENDING_KEY, IS_ASCENDING_DEFAULT);
         refershCriteria();
     }
 
@@ -45,11 +45,11 @@ public class DataOrderPreferences extends AbstractPreferences {
         saveInt(SETTINGS_SORTING_CRITERIA_KEY, sortingCriteria.getValue());
     }
 
-    public boolean isDescending() {
-        return isDescending;
+    public boolean isAscending() {
+        return isAscending;
     }
 
-    public void setDescending(boolean descending) {
-        isDescending = descending;
+    public void setAscending(boolean ascending) {
+        isAscending = ascending;
     }
 }

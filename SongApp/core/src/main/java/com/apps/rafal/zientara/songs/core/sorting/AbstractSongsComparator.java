@@ -9,30 +9,38 @@ import java.util.Comparator;
  */
 
 public abstract class AbstractSongsComparator implements Comparator<SongModel> {
-    boolean isDescending;
+    boolean isAscending;
 
-    public boolean isDescending() {
-        return isDescending;
+    public boolean isAscending() {
+        return isAscending;
     }
 
-    public void setDescending(boolean descending) {
-        isDescending = descending;
+    public void setAscending(boolean ascending) {
+        isAscending = ascending;
     }
 
     int compareArtistName(SongModel o1, SongModel o2) {
-        int compareArtist = o1.getArtist().compareTo(o2.getArtist());
+        int compareArtist = compareStrings(o1.getArtist(), o2.getArtist());
         return applyOrder(compareArtist);
     }
 
     private int applyOrder(int compareArtist) {
-        if (isDescending)
+        if (!isAscending)
             compareArtist *= -1;
         return compareArtist;
     }
 
     int compareSongNames(SongModel o1, SongModel o2) {
-        int compareNames = o1.getSongName().compareTo(o2.getSongName());
+        int compareNames = compareStrings(o1.getSongName(), o2.getSongName());
         return applyOrder(compareNames);
+    }
+
+    int compareStrings(final String one, final String two) {
+        if (one == null ^ two == null)
+            return (one == null) ? -1 : 1;
+        if (one == null && two == null)
+            return 0;
+        return one.compareTo(two);
     }
 
     int compareYear(SongModel o1, SongModel o2) {
