@@ -9,9 +9,9 @@ import retrofit2.http.Query;
 public interface TunesService {
     public static final String TUNES_URL = "https://itunes.apple.com";
 
-    @GET("/searchSongs?term=jack+johnson")
+    @GET("/search?term=jack+johnson")
     Call<TunesFrame> getJackJohnsonSongs();
 
-    @GET("/searchSongs")
+    @GET("/search")
     Call<TunesFrame> getSongsAndSearch(@Query("term") String search);
 }

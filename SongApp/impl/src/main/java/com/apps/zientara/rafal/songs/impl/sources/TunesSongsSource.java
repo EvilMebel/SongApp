@@ -1,6 +1,5 @@
 package com.apps.zientara.rafal.songs.impl.sources;
 
-import com.apps.rafal.zientara.songs.core.loggers.Logger;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.rafal.zientara.songs.core.sources.SongsSource;
 import com.apps.zientara.rafal.songs.impl.models.tunes.TunesFrame;
@@ -10,7 +9,6 @@ import com.apps.zientara.rafal.songs.impl.retrofit.services.TunesService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,10 +49,7 @@ public class TunesSongsSource extends SongsSource {
         String searchString = getSearchString(searchPhrase);
         List<SongModel> songsList = new ArrayList<>();
         try {
-            Response<TunesFrame> execute = tunesService.getSongsAndSearch(searchString).execute();
-            List<TunesSong> resultsSongs = execute.body().getResultsSongs();
-            for (TunesSong song : resultsSongs)
-                songsList.add(song);
+            trySearchSongs(searchString, songsList);
         } catch (Exception e) {
             logger.error(String.format("%s : %s", e.getClass().getSimpleName(), e.getMessage()));
             return new ArrayList<>();
@@ -62,8 +57,15 @@ public class TunesSongsSource extends SongsSource {
         return songsList;
     }
 
+    private void trySearchSongs(String searchString, List<SongModel> songsList) throws java.io.IOException {
+        Response<TunesFrame> execute = tunesService.getSongsAndSearch(searchString).execute();
+        List<TunesSong> resultsSongs = execute.body().getResultsSongs();
+        for (TunesSong song : resultsSongs)
+            songsList.add(song);
+    }
+
     private String getSearchString(String searchPhrase) {
-        String searchString = "";
+        /*String searchString = "";
         String[] split = searchPhrase.split(" ");
         int wordsCount = split.length;
         for (int i = 0; i < wordsCount; i++) {
@@ -71,7 +73,8 @@ public class TunesSongsSource extends SongsSource {
             if (i < wordsCount - 1)
                 searchPhrase += "+";
         }
-        return searchString;
+        return searchString;*/
+        return searchPhrase;
     }
 
     @Override
