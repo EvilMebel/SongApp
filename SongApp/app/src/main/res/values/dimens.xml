@@ -8,4 +8,5 @@
     <dimen name="text_size_big">24sp</dimen>
     <dimen name="divider_height">1px</dimen>
     <dimen name="songDetailsFragment_imageSize">128dp</dimen>
+    <dimen name="error_icon_size">64dp</dimen>
 </resources>

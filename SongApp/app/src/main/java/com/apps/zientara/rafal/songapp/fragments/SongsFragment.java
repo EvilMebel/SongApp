@@ -9,7 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.zientara.rafal.songapp.R;
@@ -51,6 +54,15 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     @BindView(R.id.songsFragment_progressSpinner)
     ProgressBar progressSpinner;
 
+    @BindView(R.id.songsFragment_messageImage)
+    ImageView messageImage;
+
+    @BindView(R.id.songsFragment_messageLinearLayout)
+    LinearLayout messageLinearLayout;
+
+    @BindView(R.id.songsFragment_messageText)
+    TextView messageText;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +90,14 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     private void prepareObservable() {
         if (searchObservable == null)
             searchObservable = new SearchObservable(searchEditText).create();
+    }
+
+    private void showEmptyResultMessage() {
+        messageLinearLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void hideEmptyResultMessage() {
+        messageLinearLayout.setVisibility(View.GONE);
     }
 
     private void prepareRecyclerViewAdapter() {
@@ -145,6 +165,14 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     }
 
     private void showResult(List<SongModel> songsList) {
+        if (songsList.isEmpty())
+            showEmptyResultMessage();
+        else
+            hideEmptyResultMessage();
+        refreshList(songsList);
+    }
+
+    private void refreshList(List<SongModel> songsList) {
         songsAdapter.setSongsList(songsList);
         songsAdapter.notifyDataSetChanged();
     }
@@ -154,6 +182,7 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     }
 
     private void showProgressBar() {
+        hideEmptyResultMessage();
         progressSpinner.setVisibility(View.VISIBLE);
     }
 
