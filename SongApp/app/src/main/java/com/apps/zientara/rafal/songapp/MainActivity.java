@@ -8,12 +8,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
+import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.zientara.rafal.songapp.fragments.SettingsFragment;
+import com.apps.zientara.rafal.songapp.fragments.SongDetailsFragment;
 import com.apps.zientara.rafal.songapp.fragments.SongsFragment;
 
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements SongsFragment.InteractionListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,10 @@ public class MainActivity extends BaseActivity {
             openFragment(new SettingsFragment(), true);
     }
 
+    private void openSongDetailsFragment(SongModel songModel) {
+            openFragment(SongDetailsFragment.newInstance(songModel), true);
+    }
+
     private Fragment getActiveFragment() {
         return getSupportFragmentManager().findFragmentById(R.id.mainActivity_fragmentContainer);
     }
@@ -61,5 +67,10 @@ public class MainActivity extends BaseActivity {
 
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    @Override
+    public void onSongClicked(SongModel songModel) {
+        openSongDetailsFragment(songModel);
     }
 }

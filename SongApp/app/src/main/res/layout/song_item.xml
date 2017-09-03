@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical"
     android:paddingBottom="@dimen/medium_padding"
     android:paddingLeft="@dimen/big_padding"
@@ -30,30 +31,30 @@
         android:layout_toEndOf="@+id/songItem_imageView"
         android:layout_toRightOf="@+id/songItem_imageView"
         android:maxLines="1"
-        android:text="@string/dummy_text"
-        android:textStyle="bold"
         android:paddingBottom="@dimen/medium_padding"
         android:paddingEnd="@dimen/medium_padding"
         android:paddingLeft="@dimen/medium_padding"
         android:paddingRight="@dimen/medium_padding"
-        android:paddingStart="@dimen/medium_padding" />
+        android:paddingStart="@dimen/medium_padding"
+        android:text="@string/dummy_text"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/songItem_artistText"
+        style="@style/AppTextStyleSecondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
         android:layout_below="@+id/songItem_songNameText"
         android:layout_toEndOf="@+id/songItem_imageView"
         android:layout_toLeftOf="@+id/songItem_releaseYearText"
         android:layout_toRightOf="@+id/songItem_imageView"
         android:layout_toStartOf="@+id/songItem_releaseYearText"
-        style="@style/AppTextStyleSecondary"
         android:paddingEnd="@dimen/medium_padding"
         android:paddingLeft="@dimen/medium_padding"
         android:paddingRight="@dimen/medium_padding"
         android:paddingStart="@dimen/medium_padding"
-        android:text="@string/dummy_text" />
+        android:text="@string/dummy_text"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/songItem_releaseYearText"

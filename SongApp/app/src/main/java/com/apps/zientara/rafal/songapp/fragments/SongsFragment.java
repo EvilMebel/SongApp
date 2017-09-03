@@ -1,5 +1,7 @@
 package com.apps.zientara.rafal.songapp.fragments;
 
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,13 +33,14 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
-public class SongsFragment extends BaseFragment {
+public class SongsFragment extends BaseFragment implements SongsAdapter.ClickListener {
     private static final int LOADING_TIME_OFFSET = 100;//300;
     private ConsoleLogger consoleLogger;
     private DataOrderPreferences dataOrderPreferences;
     private Disposable searchDisposable;
     private SearchEngine searchEngine;
     private SongsAdapter songsAdapter;
+    private InteractionListener interactionListener;
 
     @BindView(R.id.songsFragment_recyclerView)
     RecyclerView recyclerView;
@@ -73,6 +76,7 @@ public class SongsFragment extends BaseFragment {
 
     private void prepareRecyclerViewAdapter() {
         songsAdapter = new SongsAdapter(getActivity());
+        songsAdapter.setClickListener(this);
         recyclerView.setAdapter(songsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -140,5 +144,31 @@ public class SongsFragment extends BaseFragment {
 
     private void showProgressBar() {
         progressSpinner.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void songClicked(SongModel songModel) {
+        interactionListener.onSongClicked(songModel);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof InteractionListener) {
+            interactionListener = (InteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement InteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        interactionListener = null;
+    }
+
+    public interface InteractionListener {
+        void onSongClicked(SongModel songModel);
     }
 }

@@ -15,7 +15,8 @@ import java.util.List;
 
 public class SongsAdapter extends RecyclerView.Adapter<SongViewHolder>{
     private final LayoutInflater inlfater;
-    List<SongModel> songsList;
+    private ClickListener clickListener;
+    private List<SongModel> songsList;
 
     public SongsAdapter(Context context) {
         inlfater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -30,8 +31,14 @@ public class SongsAdapter extends RecyclerView.Adapter<SongViewHolder>{
 
     @Override
     public void onBindViewHolder(SongViewHolder holder, int position) {
-        SongModel song = songsList.get(position);
+        final SongModel song = songsList.get(position);
         holder.updateFields(song);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickListener.songClicked(song);//// TODO: 03.09.2017 test
+            }
+        });
     }
 
     @Override
@@ -41,5 +48,13 @@ public class SongsAdapter extends RecyclerView.Adapter<SongViewHolder>{
 
     public void setSongsList(List<SongModel> songsList) {
         this.songsList = songsList;
+    }
+
+    public void setClickListener(ClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
+    public interface ClickListener {
+        void songClicked(SongModel songModel);
     }
 }

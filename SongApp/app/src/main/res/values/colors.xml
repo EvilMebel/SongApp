@@ -4,15 +4,26 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#009688</color>
 
-    <color name="textColor">@android:color/white</color>
-    <color name="textColorSecond">#BDBDBD</color>
-    <color name="textColorSoft">#4CAF50</color>
+    <!--Material design colors-->
+    <color name="green_500">#4CAF50</color>
+    <color name="grey_100">#F5F5F5</color>
+    <color name="grey_400">#BDBDBD</color>
+    <color name="grey_900">#212121</color>
 
-    <color name="dividerBackground">#4CAF50</color>
+    <color name="textColor">@android:color/white</color>
+    <color name="textColorSecond">@color/grey_400</color>
+    <color name="textColorSoft">@color/green_500</color>
+
+    <color name="dividerBackground">@color/green_500</color>
 
     <!--Settings fragment-->
-    <color name="settingsFragmentBackground">#212121</color>
-    <color name="settingsFragmentText">#F5F5F5</color>
-    <color name="settingsFragmentTextHeader">#4CAF50</color>
+    <color name="settingsFragmentBackground">@color/grey_900</color>
+    <color name="settingsFragmentText">@color/grey_100</color>
+    <color name="settingsFragmentTextHeader">@color/green_500</color>
+
+    <!--Song Details fragment-->
+    <color name="songDetailsFragmentBackground">@color/grey_900</color>
+    <color name="songDetailsFragmentText">@color/grey_100</color>
+    <color name="songDetailsFragmentTextHeader">@color/green_500</color>
 
 </resources>

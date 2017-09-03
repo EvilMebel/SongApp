@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="@dimen/medium_padding"
+    android:background="@color/songDetailsFragmentBackground">
+
+
+    <ImageView
+        android:id="@+id/songDetailsFragment_imageView"
+        android:layout_width="@dimen/songDetailsFragment_imageSize"
+        android:layout_height="128dp"
+        android:layout_margin="@dimen/medium_padding"
+        android:background="@android:color/white"
+        app:srcCompat="@drawable/ic_music_note_black_24dp" />
+
+    <TextView
+        style="@style/TextHeader"
+        android:gravity="center"
+        android:id="@+id/songDetailsFragment_songNameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/medium_padding"
+        android:text="@string/dummy_text" />
+
+    <TextView
+        android:id="@+id/songDetailsFragment_artistText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dummy_text"
+        android:padding="@dimen/medium_padding"
+        android:textColor="@color/songDetailsFragmentText"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/songDetailsFragment_yearText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/medium_padding"
+        android:text="1992"
+        android:textColor="@color/songDetailsFragmentText" />
+
+</LinearLayout>

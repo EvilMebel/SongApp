@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.apps.zientara.rafal.songapp.fragments.SongsFragment;
+
 public abstract class BaseActivity extends AppCompatActivity {
     private static final int ENTER_ANIM = android.R.anim.slide_in_left;
     private static final int EXIT_ANIM = android.R.anim.slide_out_right;
