@@ -44,6 +44,17 @@ public class BaseSearchEngineTest {
         assertExpectedListSize(allSongsCountExpected, allSongs);
     }
 
+
+    @Test
+    public void testSearchEngineWithTwoSource_getAll() {
+        int allSongsCountExpected = 4;
+        int songsCountForSource = 2;
+        addSongsSourceWithRecordsCount(songsCountForSource);
+        addSongsSourceWithRecordsCount(songsCountForSource);
+        List<SongModel> allSongs = searchEngine.getAllSongs();
+        assertExpectedListSize(allSongsCountExpected, allSongs);
+    }
+
     @Test
     public void testSearchEngineWithOneSource_searchArtist() {
         int songsCount = 2;

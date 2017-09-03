@@ -1,21 +1,16 @@
 package com.apps.zientara.rafal.songapp;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.inputmethod.InputMethodManager;
 
 import com.apps.zientara.rafal.songapp.fragments.SettingsFragment;
 import com.apps.zientara.rafal.songapp.fragments.SongsFragment;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
@@ -24,7 +19,13 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        openFragment(new SongsFragment(), false);
+        openHomeScreen();
+    }
+
+    private void openHomeScreen() {
+        Fragment activeFragment = getActiveFragment();
+        if (activeFragment == null || !(activeFragment instanceof SongsFragment))
+            openFragment(new SongsFragment(), false);
     }
 
     @Override
@@ -37,6 +38,7 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
+                hideKeyboard();
                 openSettingsFragment();
                 return true;
         }
@@ -44,8 +46,20 @@ public class MainActivity extends BaseActivity {
     }
 
     private void openSettingsFragment() {
-        //// TODO: 30.08.2017 block spamming
-        openFragment(new SettingsFragment(), true);
+        Fragment activeFragment = getActiveFragment();
+        if (activeFragment == null || !(activeFragment instanceof SettingsFragment))
+            openFragment(new SettingsFragment(), true);
     }
 
+    private Fragment getActiveFragment() {
+        return getSupportFragmentManager().findFragmentById(R.id.mainActivity_fragmentContainer);
+    }
+
+    protected void hideKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+    }
 }
