@@ -3,11 +3,12 @@ package com.apps.zientara.rafal.songs.impl.models;
 import com.apps.rafal.zientara.songs.core.helpers.SongModelMatcher;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 
-import org.parceler.Parcel;
-
 import java.util.Random;
 
-@Parcel
+/**
+ * Created by Evil on 29.08.2017.
+ */
+
 public class FakeSong implements SongModel {
 
     String songName;

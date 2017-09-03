@@ -13,5 +13,8 @@ public interface TunesService {
     Call<TunesFrame> getJackJohnsonSongs();
 
     @GET("/searchSongs")
-    Call<TunesFrame> getSongsAndSearch(@Query("term") String search);
+    Call<TunesFrame> getSongsAndSearch(@Query("term") String search);//// TODO: 29.08.2017 Header?
+
+//    @GET("/searchSongs?term={searchSongs}")
+//    Call<TunesFrame> getSongsAndSearch(@Path("searchSongs") String searchSongs);//// TODO: 29.08.2017 Header?
 }

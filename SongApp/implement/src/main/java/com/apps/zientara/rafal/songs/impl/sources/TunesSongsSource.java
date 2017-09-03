@@ -3,10 +3,10 @@ package com.apps.zientara.rafal.songs.impl.sources;
 import com.apps.rafal.zientara.songs.core.loggers.Logger;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.rafal.zientara.songs.core.sources.SongsSource;
-import com.apps.zientara.rafal.songs.impl.models.tunes.TunesFrame;
-import com.apps.zientara.rafal.songs.impl.models.tunes.TunesSong;
 import com.apps.zientara.rafal.songs.impl.retrofit.IntegerTypeAdapter;
 import com.apps.zientara.rafal.songs.impl.retrofit.services.TunesService;
+import com.apps.zientara.rafal.songs.impl.models.tunes.TunesFrame;
+import com.apps.zientara.rafal.songs.impl.models.tunes.TunesSong;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -56,7 +56,7 @@ public class TunesSongsSource extends SongsSource {
             List<TunesSong> resultsSongs = execute.body().getResultsSongs();
             for (TunesSong song : resultsSongs)
                 songsList.add(song);
-        } catch (Exception e) {
+        } catch (IOException e) {
             logger.error(String.format("%s : %s", e.getClass().getSimpleName(), e.getMessage()));
             return new ArrayList<>();
         }
@@ -77,6 +77,6 @@ public class TunesSongsSource extends SongsSource {
 
     @Override
     public List<SongModel> getAll() {
-        return new ArrayList<>();
+        return new ArrayList<>();//// TODO: 29.08.2017 return something?
     }
 }

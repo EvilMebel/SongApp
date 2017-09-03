@@ -1,8 +1,8 @@
 package com.apps.zientara.rafal.songs.impl.converters;
 
-import com.apps.rafal.zientara.songs.core.model.SongModel;
-import com.apps.zientara.rafal.songs.impl.models.TooplooxSong;
 import com.apps.zientara.rafal.songs.impl.retrofit.IntegerTypeAdapter;
+import com.apps.zientara.rafal.songs.impl.models.TooplooxSong;
+import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -13,7 +13,6 @@ import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class JsonFileConverter {
 

@@ -4,6 +4,9 @@ import com.apps.rafal.zientara.songs.core.helpers.SongModelMatcher;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
+@Parcel
 public class TooplooxSong implements SongModel {
 
     @SerializedName("Song Clean")

@@ -2,28 +2,39 @@ package com.apps.zientara.rafal.songs.impl.models;
 
 import com.apps.rafal.zientara.songs.core.helpers.SongModelMatcher;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
+import com.google.gson.annotations.SerializedName;
 
-import org.parceler.Parcel;
+public class TooplooxSong implements SongModel {
 
-import java.util.Random;
-
-@Parcel
-public class FakeSong implements SongModel {
-
+    @SerializedName("Song Clean")
     String songName;
 
-    public FakeSong() {
-        songName = "Lol" + new Random().nextInt(1000);
-    }
+    @SerializedName("ARTIST CLEAN")
+    String artist;
+
+    @SerializedName("Release Year")
+    Integer releaseYear;
+
+    @SerializedName("COMBINED")
+    String combined;
+
+    @SerializedName("First")
+    int first;
+
+    @SerializedName("PlayCount")
+    int playCount;
+
+    @SerializedName("F*G")
+    int fog;
 
     @Override
     public String getArtist() {
-        return "Popek";
+        return artist;
     }
 
     @Override
     public Integer getReleaseYear() {
-        return 2017;
+        return releaseYear;
     }
 
     @Override
@@ -35,5 +46,4 @@ public class FakeSong implements SongModel {
     public boolean matchesQuery(String[] words) {
         return SongModelMatcher.defaultMatchesQuery(words, this);
     }
-
 }
