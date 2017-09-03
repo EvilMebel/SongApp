@@ -1,7 +1,6 @@
 package com.apps.zientara.rafal.songapp.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,7 +33,8 @@ import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
 public class SongsFragment extends BaseFragment implements SongsAdapter.ClickListener {
-    private static final int LOADING_TIME_OFFSET = 100;//300;
+    private static final int LOADING_TIME_OFFSET = 300;
+    private Observable<String> searchObservable;
     private ConsoleLogger consoleLogger;
     private DataOrderPreferences dataOrderPreferences;
     private Disposable searchDisposable;
@@ -71,7 +71,13 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         super.onViewCreated(view, savedInstanceState);
         prepareRecyclerViewAdapter();
         hideProgressBar();
-        loadData();
+        prepareObservable();
+        subscribeSearchingWithDataLoading();
+    }
+
+    private void prepareObservable() {
+        if (searchObservable == null)
+            searchObservable = new SearchObservable(searchEditText).create();
     }
 
     private void prepareRecyclerViewAdapter() {
@@ -81,51 +87,56 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-    private void loadData() {
-        Observable<String> searchObservable = new SearchObservable(searchEditText).create();
-
-        searchDisposable = searchObservable
-                .debounce(LOADING_TIME_OFFSET, TimeUnit.MILLISECONDS)
-                .filter(new Predicate<String>() {
-                    @Override
-                    public boolean test(String query) throws Exception {
-                        int length = query.length();
-                        return length != 1;
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(new Consumer<String>() {
-                    @Override
-                    public void accept(String s) {
-                        showProgressBar();
-                    }
-                })
-                .observeOn(Schedulers.io())
-                .map(new Function<String, List<SongModel>>() {
-                    @Override
-                    public List<SongModel> apply(String query) {
-                        searchEngine.refreshSourcesEnableState(getContext().getApplicationContext());
-                        searchEngine.refreshSongsComparator(dataOrderPreferences);
-                        if (query == null || query.isEmpty())
-                            return searchEngine.getAllSongs();
-                        return searchEngine.searchSongs(query);
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<SongModel>>() {
-                    @Override
-                    public void accept(List<SongModel> songsList) {
-                        hideProgressBar();
-                        showResult(songsList);
-                    }
-                });
+    private void subscribeSearchingWithDataLoading() {
+        if (searchDisposable == null)
+            searchDisposable = searchObservable
+                    .debounce(LOADING_TIME_OFFSET, TimeUnit.MILLISECONDS)
+                    .filter(new Predicate<String>() {
+                        @Override
+                        public boolean test(String query) throws Exception {
+                            int length = query.length();
+                            return length != 1;
+                        }
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnNext(new Consumer<String>() {
+                        @Override
+                        public void accept(String s) {
+                            showProgressBar();
+                        }
+                    })
+                    .observeOn(Schedulers.io())
+                    .map(new Function<String, List<SongModel>>() {
+                        @Override
+                        public List<SongModel> apply(String query) {
+                            searchEngine.refreshSourcesEnableState(getContext().getApplicationContext());
+                            searchEngine.refreshSongsComparator(dataOrderPreferences);
+                            if (query == null || query.isEmpty())
+                                return searchEngine.getAllSongs();
+                            return searchEngine.searchSongs(query);
+                        }
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<List<SongModel>>() {
+                        @Override
+                        public void accept(List<SongModel> songsList) {
+                            hideProgressBar();
+                            showResult(songsList);
+                        }
+                    });
     }
 
     @Override
     public void onResume() {
         super.onResume();
         consoleLogger.info("onResume");
-        searchEngine.refreshSourcesEnableState(getActivity().getApplicationContext());
+        subscribeSearchingWithDataLoading();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        dispose();
     }
 
     private void dispose() {
@@ -154,12 +165,10 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof InteractionListener) {
+        if (context instanceof InteractionListener)
             interactionListener = (InteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement InteractionListener");
-        }
+        else
+            throw new RuntimeException(String.format("%s must implement InteractionListener", context.toString()));
     }
 
     @Override

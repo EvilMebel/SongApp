@@ -58,14 +58,6 @@ public class SongDetailsFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putParcelable(SONG_KEY, Parcels.wrap(songModel));
         return bundle;
-
-//        if(songModel instanceof TunesSong) {
-//            TunesSong tunesSong = (TunesSong) songModel;
-//            bundle.putParcelable("song", Parcels.wrap(tunesSong));
-//        } else if(songModel instanceof TooplooxSong) {
-//            TooplooxSong songModel1 = (TooplooxSong) songModel;
-//        }
-//        return bundle;
     }
 
     @Override
