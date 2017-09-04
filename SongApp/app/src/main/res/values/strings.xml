@@ -2,4 +2,9 @@
     <string name="app_name">SongApp</string>
     <string name="dummy_text">Dummy text</string>
     <string name="ascending">Ascending</string>
+
+    <!--Material design animations-->
+    <string name="transition_songIcon">transition_songIcon</string>
+    <string name="transition_songName">transition_songName</string>
+    <string name="transition_songArtist">transition_songArtist</string>
 </resources>

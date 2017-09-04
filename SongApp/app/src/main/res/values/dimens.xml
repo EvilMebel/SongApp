@@ -9,4 +9,6 @@
     <dimen name="divider_height">1px</dimen>
     <dimen name="songDetailsFragment_imageSize">128dp</dimen>
     <dimen name="error_icon_size">64dp</dimen>
+
+    <integer name="anim_duration_medium">300</integer>
 </resources>

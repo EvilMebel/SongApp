@@ -1,9 +1,15 @@
 package com.apps.zientara.rafal.songapp;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.transition.ChangeBounds;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.transition.Slide;
+import android.transition.TransitionInflater;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -62,6 +68,6 @@ public class MainActivity extends BaseActivity implements SongsFragment.Interact
 
     @Override
     public void onSongClicked(SongModel songModel) {
-        openSongDetailsFragment(songModel);
+        //openSongDetailsFragment(songModel);
     }
 }

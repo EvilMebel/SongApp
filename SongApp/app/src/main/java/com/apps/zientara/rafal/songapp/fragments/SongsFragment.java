@@ -1,10 +1,14 @@
 package com.apps.zientara.rafal.songapp.fragments;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +57,9 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
 
     @BindView(R.id.songsFragment_progressSpinner)
     ProgressBar progressSpinner;
+
+    @BindView(R.id.songsFragment_smallImage)
+    ImageView smallImage;
 
     @BindView(R.id.songsFragment_messageImage)
     ImageView messageImage;
@@ -188,7 +195,33 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
 
     @Override
     public void songClicked(SongModel songModel) {
-        interactionListener.onSongClicked(songModel);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            materialAnimation(songModel);
+        else
+            interactionListener.onSongClicked(songModel);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void materialAnimation(SongModel songModel) {
+        boolean overlap = false;
+        SongDetailsFragment songDetailsFragment = SongDetailsFragment.newInstance(songModel);
+
+        Slide slideTransition = new Slide(Gravity.RIGHT);
+        slideTransition.setDuration(getResources().getInteger(R.integer.anim_duration_medium));
+
+        android.transition.ChangeBounds changeBoundsTransition = new android.transition.ChangeBounds();
+        changeBoundsTransition.setDuration(getResources().getInteger(R.integer.anim_duration_medium));
+
+        songDetailsFragment.setEnterTransition(slideTransition);
+        songDetailsFragment.setAllowEnterTransitionOverlap(overlap);
+        songDetailsFragment.setAllowReturnTransitionOverlap(overlap);
+        songDetailsFragment.setSharedElementEnterTransition(changeBoundsTransition);
+
+        getFragmentManager().beginTransaction()
+                .replace(R.id.mainActivity_fragmentContainer, songDetailsFragment)
+                .addToBackStack(null)
+                .addSharedElement(smallImage, getString(R.string.transition_songIcon))
+                .commit();
     }
 
     @Override

@@ -51,9 +51,15 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/songsFragment_smallImage"
+            android:layout_gravity="center|bottom"
+            android:transitionName="@string/transition_songIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_music_note_black_24dp" />
+
+
     </FrameLayout>
-
-
-
 
 </LinearLayout>
