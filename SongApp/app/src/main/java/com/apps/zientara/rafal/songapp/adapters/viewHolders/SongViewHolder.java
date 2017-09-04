@@ -1,5 +1,6 @@
 package com.apps.zientara.rafal.songapp.adapters.viewHolders;
 
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import com.apps.rafal.zientara.songs.core.helpers.SongHelper;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.zientara.rafal.songapp.R;
+import com.apps.zientara.rafal.songapp.helpers.SharedElementHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,10 +33,13 @@ public class SongViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void updateFields(SongModel song) {
-        artistText.setText(song.getArtist());
-        releaseYearText.setText(SongHelper.getYearText(song));
-        songNameText.setText(song.getSongName());
+    public void updateFields(SongModel songModel) {
+        artistText.setText(songModel.getArtist());
+        releaseYearText.setText(SongHelper.getYearText(songModel));
+        songNameText.setText(songModel.getSongName());
+
+//        ViewCompat.setTransitionName(imageView, song.getSongName());//// TODO: 04.09.2017 combine name?
+        ViewCompat.setTransitionName(imageView, SharedElementHelper.getUniqueName(songModel));//// TODO: 04.09.2017 combine name?
     }
 
 }

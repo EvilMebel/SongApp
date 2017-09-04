@@ -29,7 +29,7 @@ public class SearchObservable {
                 final TextWatcher textWatcher = createTextWatcher(emitter);
                 searchEditText.addTextChangedListener(textWatcher);
                 createDispose(emitter, textWatcher);
-                emitter.onNext("");
+                //emitter.onNext("");
             }
         });
     }

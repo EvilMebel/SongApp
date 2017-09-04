@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.apps.rafal.zientara.songs.core.helpers.SongHelper;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.zientara.rafal.songapp.R;
+import com.apps.zientara.rafal.songapp.helpers.SharedElementHelper;
 
 import org.parceler.Parcels;
 
@@ -43,6 +45,7 @@ public class SongDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_song_details, container, false);
         ButterKnife.bind(this, view);
+        ViewCompat.setTransitionName(imageView, SharedElementHelper.getUniqueName(songModel));
         return view;
     }
 

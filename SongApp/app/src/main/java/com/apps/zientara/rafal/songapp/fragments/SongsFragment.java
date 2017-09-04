@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Slide;
@@ -23,6 +24,7 @@ import com.apps.zientara.rafal.songapp.R;
 import com.apps.zientara.rafal.songapp.SearchEngine;
 import com.apps.zientara.rafal.songapp.adapters.SongsAdapter;
 import com.apps.zientara.rafal.songapp.adapters.viewHolders.SongViewHolder;
+import com.apps.zientara.rafal.songapp.helpers.SharedElementHelper;
 import com.apps.zientara.rafal.songapp.loggers.ConsoleLogger;
 import com.apps.zientara.rafal.songapp.observables.SearchObservable;
 import com.apps.zientara.rafal.songapp.preferences.DataOrderPreferences;
@@ -168,8 +170,10 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     }
 
     private void dispose() {
-        if (searchDisposable != null && !searchDisposable.isDisposed())
+        if (searchDisposable != null && !searchDisposable.isDisposed()) {
             searchDisposable.dispose();
+            searchDisposable = null;
+        }
     }
 
     private void showResult(List<SongModel> songsList) {
@@ -211,17 +215,21 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         slideTransition.setDuration(getResources().getInteger(R.integer.anim_duration_medium));
 
         android.transition.ChangeBounds changeBoundsTransition = new android.transition.ChangeBounds();
-        changeBoundsTransition.setDuration(getResources().getInteger(R.integer.anim_duration_very_long));
+        changeBoundsTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
 
         songDetailsFragment.setEnterTransition(slideTransition);
         songDetailsFragment.setAllowEnterTransitionOverlap(overlap);
         songDetailsFragment.setAllowReturnTransitionOverlap(overlap);
         songDetailsFragment.setSharedElementEnterTransition(changeBoundsTransition);
 
+//        ViewCompat.setTransitionName(holder.imageView, getString(R.string.transition_songIcon));
+        ViewCompat.setTransitionName(holder.songNameText, getString(R.string.transition_songName));
+        ViewCompat.setTransitionName(holder.artistText, getString(R.string.transition_songArtist));
+
         getFragmentManager().beginTransaction()
                 .replace(R.id.mainActivity_fragmentContainer, songDetailsFragment)
                 .addToBackStack(null)
-                .addSharedElement(holder.imageView, getString(R.string.transition_songIcon))
+                .addSharedElement(holder.imageView, SharedElementHelper.getUniqueName(songModel))
                 .addSharedElement(holder.songNameText, getString(R.string.transition_songName))
                 .addSharedElement(holder.artistText, getString(R.string.transition_songArtist))
                 .commit();
