@@ -5,7 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -20,6 +25,7 @@ import com.apps.zientara.rafal.songapp.SearchEngine;
 import com.apps.zientara.rafal.songapp.adapters.SongsAdapter;
 import com.apps.zientara.rafal.songapp.loggers.ConsoleLogger;
 import com.apps.zientara.rafal.songapp.observables.SearchObservable;
+import com.apps.zientara.rafal.songapp.observables.SearchViewObservable;
 import com.apps.zientara.rafal.songapp.preferences.DataOrderPreferences;
 
 import java.util.List;
@@ -35,15 +41,18 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
-public class SongsFragment extends BaseFragment implements SongsAdapter.ClickListener {
+public class SongsFragment extends BaseFragment implements SongsAdapter.ClickListener, SearchView.OnQueryTextListener {
+    private static final String TAG = SongsFragment.class.getSimpleName();
     private static final int LOADING_TIME_OFFSET = 300;
     private Observable<String> searchObservable;
+    private Observable<String> searchViewObservable;
     private ConsoleLogger consoleLogger;
     private DataOrderPreferences dataOrderPreferences;
     private Disposable searchDisposable;
     private SearchEngine searchEngine;
     private SongsAdapter songsAdapter;
     private InteractionListener interactionListener;
+    private MenuItem searchItem;
 
     @BindView(R.id.songsFragment_recyclerView)
     RecyclerView recyclerView;
@@ -66,6 +75,7 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         consoleLogger = new ConsoleLogger();
         searchEngine = new SearchEngine(consoleLogger, getActivity().getApplicationContext());
         dataOrderPreferences = DataOrderPreferences.getInstance(getActivity().getApplicationContext());
@@ -84,7 +94,13 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         prepareRecyclerViewAdapter();
         hideProgressBar();
         prepareObservable();
-        subscribeSearchingWithDataLoading();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        searchObservable = null;
+        searchViewObservable = null;
     }
 
     private void prepareObservable() {
@@ -109,7 +125,7 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
 
     private void subscribeSearchingWithDataLoading() {
         if (searchDisposable == null)
-            searchDisposable = searchObservable
+            searchDisposable = searchViewObservable
                     .debounce(LOADING_TIME_OFFSET, TimeUnit.MILLISECONDS)
                     .filter(new Predicate<String>() {
                         @Override
@@ -150,18 +166,20 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     public void onResume() {
         super.onResume();
         consoleLogger.info("onResume");
-        subscribeSearchingWithDataLoading();
+//        subscribeSearchingWithDataLoading();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        dispose();
+        disposeSearchEditTextObservable();
     }
 
-    private void dispose() {
-        if (searchDisposable != null && !searchDisposable.isDisposed())
+    private void disposeSearchEditTextObservable() {
+        if (searchDisposable != null && !searchDisposable.isDisposed()) {
             searchDisposable.dispose();
+            searchDisposable = null;
+        }
     }
 
     private void showResult(List<SongModel> songsList) {
@@ -187,6 +205,18 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_fragment_songs, menu);
+        searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(this);
+        searchView.setQueryHint("Search");
+        searchViewObservable = new SearchViewObservable(searchView).create();
+        subscribeSearchingWithDataLoading();
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public void songClicked(SongModel songModel) {
         interactionListener.onSongClicked(songModel);
     }
@@ -204,6 +234,18 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     public void onDetach() {
         super.onDetach();
         interactionListener = null;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        Log.d(TAG, "onQueryTextSubmit " + query);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        Log.d(TAG, "onQueryTextChange " + newText);
+        return false;
     }
 
     public interface InteractionListener {
