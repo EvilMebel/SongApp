@@ -59,14 +59,6 @@ public class SettingsFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_fragment_settings, menu);
-        MenuItem itemLol = menu.findItem(R.id.action_lol);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
