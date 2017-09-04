@@ -4,11 +4,10 @@
     tools:context="com.sdacademy.zientara.rafal.awesomeapp.MainActivity">
 
     <item
-        android:menuCategory="system"
-        android:id="@+id/action_settings"
-        android:orderInCategory="1000"
-        android:title="Settings"
-        android:icon="@drawable/ic_settings_24dp"
+        android:id="@+id/action_lol"
+        android:orderInCategory="15"
+        android:title="Lol"
+        android:icon="@drawable/ic_directions_run_black_24dp"
         app:showAsAction="always" />
 
 </menu>

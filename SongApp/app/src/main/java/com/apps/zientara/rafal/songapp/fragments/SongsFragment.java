@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -24,7 +23,6 @@ import com.apps.zientara.rafal.songapp.R;
 import com.apps.zientara.rafal.songapp.SearchEngine;
 import com.apps.zientara.rafal.songapp.adapters.SongsAdapter;
 import com.apps.zientara.rafal.songapp.loggers.ConsoleLogger;
-import com.apps.zientara.rafal.songapp.observables.SearchObservable;
 import com.apps.zientara.rafal.songapp.observables.SearchViewObservable;
 import com.apps.zientara.rafal.songapp.preferences.DataOrderPreferences;
 
@@ -52,13 +50,9 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     private SearchEngine searchEngine;
     private SongsAdapter songsAdapter;
     private InteractionListener interactionListener;
-    private MenuItem searchItem;
 
     @BindView(R.id.songsFragment_recyclerView)
     RecyclerView recyclerView;
-
-    @BindView(R.id.songsFragment_searchEditText)
-    EditText searchEditText;
 
     @BindView(R.id.songsFragment_progressSpinner)
     ProgressBar progressSpinner;
@@ -93,7 +87,6 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         super.onViewCreated(view, savedInstanceState);
         prepareRecyclerViewAdapter();
         hideProgressBar();
-        prepareObservable();
     }
 
     @Override
@@ -101,11 +94,6 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         super.onDestroyView();
         searchObservable = null;
         searchViewObservable = null;
-    }
-
-    private void prepareObservable() {
-        if (searchObservable == null)
-            searchObservable = new SearchObservable(searchEditText).create();
     }
 
     private void showEmptyResultMessage() {
@@ -206,14 +194,12 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_fragment_songs, menu);
-        searchItem = menu.findItem(R.id.action_search);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setOnQueryTextListener(this);
-        searchView.setQueryHint("Search");
         searchViewObservable = new SearchViewObservable(searchView).create();
         subscribeSearchingWithDataLoading();
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
