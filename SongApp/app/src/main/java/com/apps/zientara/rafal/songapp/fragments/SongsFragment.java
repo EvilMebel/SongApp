@@ -244,7 +244,6 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     private void materialAnimation(SongModel songModel, SongViewHolder holder) {
         boolean overlap = false;
         SongDetailsFragment songDetailsFragment = SongDetailsFragment.newInstance(songModel);
-
         Slide slideTransition = new Slide(Gravity.RIGHT);
         slideTransition.setDuration(getResources().getInteger(R.integer.anim_duration_medium));
 
@@ -267,9 +266,9 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         getFragmentManager().beginTransaction()
                 .replace(R.id.mainActivity_fragmentContainer, songDetailsFragment)
                 .addToBackStack(null)
-                .addSharedElement(holder.artistText, SharedElementHelper.getArtistTrans(songModel))
-                .addSharedElement(holder.imageView, SharedElementHelper.getIconTrans(songModel))
-                .addSharedElement(holder.songNameText, SharedElementHelper.getNameTrans(songModel))
+                .addSharedElement(holder.artistText, ViewCompat.getTransitionName(holder.artistText))
+                .addSharedElement(holder.imageView, ViewCompat.getTransitionName(holder.imageView))
+                .addSharedElement(holder.songNameText, ViewCompat.getTransitionName(holder.songNameText))
                 .commit();
     }
 
