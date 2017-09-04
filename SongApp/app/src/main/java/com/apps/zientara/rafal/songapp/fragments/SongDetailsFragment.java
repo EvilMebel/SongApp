@@ -45,7 +45,9 @@ public class SongDetailsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_song_details, container, false);
         ButterKnife.bind(this, view);
-        ViewCompat.setTransitionName(imageView, SharedElementHelper.getUniqueName(songModel));
+        ViewCompat.setTransitionName(artistText, SharedElementHelper.getArtistTrans(songModel));
+        ViewCompat.setTransitionName(imageView, SharedElementHelper.getIconTrans(songModel));
+        ViewCompat.setTransitionName(songNameText, SharedElementHelper.getNameTrans(songModel));
         return view;
     }
 

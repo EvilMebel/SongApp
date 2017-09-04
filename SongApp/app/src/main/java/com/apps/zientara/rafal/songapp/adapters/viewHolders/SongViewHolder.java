@@ -38,8 +38,9 @@ public class SongViewHolder extends RecyclerView.ViewHolder {
         releaseYearText.setText(SongHelper.getYearText(songModel));
         songNameText.setText(songModel.getSongName());
 
-//        ViewCompat.setTransitionName(imageView, song.getSongName());//// TODO: 04.09.2017 combine name?
-        ViewCompat.setTransitionName(imageView, SharedElementHelper.getUniqueName(songModel));//// TODO: 04.09.2017 combine name?
+        ViewCompat.setTransitionName(artistText, SharedElementHelper.getArtistTrans(songModel));
+        ViewCompat.setTransitionName(imageView, SharedElementHelper.getIconTrans(songModel));
+        ViewCompat.setTransitionName(songNameText, SharedElementHelper.getNameTrans(songModel));
     }
 
 }

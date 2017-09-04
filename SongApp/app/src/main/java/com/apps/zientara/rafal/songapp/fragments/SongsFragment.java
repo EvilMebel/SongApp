@@ -257,15 +257,19 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         songDetailsFragment.setSharedElementEnterTransition(changeBoundsTransition);
 
 //        ViewCompat.setTransitionName(holder.imageView, getString(R.string.transition_songIcon));
-        ViewCompat.setTransitionName(holder.songNameText, getString(R.string.transition_songName));
-        ViewCompat.setTransitionName(holder.artistText, getString(R.string.transition_songArtist));
+//        ViewCompat.setTransitionName(holder.songNameText, getString(R.string.transition_songName));
+//        ViewCompat.setTransitionName(holder.artistText, getString(R.string.transition_songArtist));
+
+//        ViewCompat.setTransitionName(artistText, SharedElementHelper.getArtistTrans(songModel));
+//        ViewCompat.setTransitionName(imageView, SharedElementHelper.getIconTrans(songModel));
+//        ViewCompat.setTransitionName(songNameText, SharedElementHelper.getNameTrans(songModel));
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.mainActivity_fragmentContainer, songDetailsFragment)
                 .addToBackStack(null)
-                .addSharedElement(holder.imageView, SharedElementHelper.getUniqueName(songModel))
-                .addSharedElement(holder.songNameText, getString(R.string.transition_songName))
-                .addSharedElement(holder.artistText, getString(R.string.transition_songArtist))
+                .addSharedElement(holder.artistText, SharedElementHelper.getArtistTrans(songModel))
+                .addSharedElement(holder.imageView, SharedElementHelper.getIconTrans(songModel))
+                .addSharedElement(holder.songNameText, SharedElementHelper.getNameTrans(songModel))
                 .commit();
     }
 
