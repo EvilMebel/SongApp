@@ -9,7 +9,7 @@ import org.parceler.Parcel;
 import java.util.Calendar;
 import java.util.Date;
 
-@Parcel
+@Parcel(Parcel.Serialization.BEAN)
 public class TunesSong implements SongModel {
 
     @SerializedName("wrapperType")

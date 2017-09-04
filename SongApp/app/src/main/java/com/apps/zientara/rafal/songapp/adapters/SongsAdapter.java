@@ -18,6 +18,11 @@ public class SongsAdapter extends RecyclerView.Adapter<SongViewHolder>{
     private ClickListener clickListener;
     private List<SongModel> songsList;
 
+    public SongsAdapter(Context context, List<SongModel> songsList) {
+        this(context);
+        this.songsList = songsList;
+    }
+
     public SongsAdapter(Context context) {
         inlfater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.songsList = new ArrayList<>();
@@ -48,6 +53,10 @@ public class SongsAdapter extends RecyclerView.Adapter<SongViewHolder>{
 
     public void setSongsList(List<SongModel> songsList) {
         this.songsList = songsList;
+    }
+
+    public List<SongModel> getSongsList() {
+        return songsList;
     }
 
     public void setClickListener(ClickListener clickListener) {

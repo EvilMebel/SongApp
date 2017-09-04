@@ -7,7 +7,7 @@ import org.parceler.Parcel;
 
 import java.util.Random;
 
-@Parcel
+@Parcel(Parcel.Serialization.BEAN)
 public class FakeSong implements SongModel {
 
     String songName;

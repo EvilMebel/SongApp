@@ -2,8 +2,12 @@ package com.apps.zientara.rafal.songapp.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -12,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 
 import com.apps.zientara.rafal.songapp.R;
+import com.apps.zientara.rafal.songapp.observables.SearchViewObservable;
 import com.apps.zientara.rafal.songapp.preferences.DataOrderPreferences;
 import com.apps.zientara.rafal.songapp.preferences.DataSourcePreferences;
 import com.apps.zientara.rafal.songapp.preferences.enums.CriteriaTypeEnum;
@@ -50,6 +55,11 @@ public class SettingsFragment extends BaseFragment {
 
     @BindView(R.id.settingsFragment_searchingCriteriaSongNameRadioButton)
     RadioButton searchingCriteriaSongNameRadioButton;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

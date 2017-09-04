@@ -4,8 +4,9 @@
     tools:context="com.sdacademy.zientara.rafal.awesomeapp.MainActivity">
 
     <item
+        android:menuCategory="system"
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
+        android:orderInCategory="1000"
         android:title="Settings"
         android:icon="@drawable/ic_settings_24dp"
         app:showAsAction="always" />

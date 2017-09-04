@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
  * Created by Evil on 03.09.2017.
  */
 
-public class SongDetailsFragment extends Fragment {
+public class SongDetailsFragment extends BaseFragment {
     private static final String SONG_KEY = "song";
     private SongModel songModel;
 

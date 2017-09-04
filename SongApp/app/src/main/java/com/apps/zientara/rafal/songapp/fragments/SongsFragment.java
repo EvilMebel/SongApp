@@ -10,10 +10,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Slide;
 import android.view.Gravity;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -26,9 +30,12 @@ import com.apps.zientara.rafal.songapp.adapters.SongsAdapter;
 import com.apps.zientara.rafal.songapp.adapters.viewHolders.SongViewHolder;
 import com.apps.zientara.rafal.songapp.helpers.SharedElementHelper;
 import com.apps.zientara.rafal.songapp.loggers.ConsoleLogger;
-import com.apps.zientara.rafal.songapp.observables.SearchObservable;
+import com.apps.zientara.rafal.songapp.observables.SearchViewObservable;
 import com.apps.zientara.rafal.songapp.preferences.DataOrderPreferences;
 
+import org.parceler.Parcels;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -42,9 +49,12 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
-public class SongsFragment extends BaseFragment implements SongsAdapter.ClickListener {
+public class SongsFragment extends BaseFragment implements SongsAdapter.ClickListener, SearchView.OnQueryTextListener {
+    private static final String TAG = SongsFragment.class.getSimpleName();
     private static final int LOADING_TIME_OFFSET = 300;
+    public static final String SONGS_KEY = "songs";
     private Observable<String> searchObservable;
+    private Observable<String> searchViewObservable;
     private ConsoleLogger consoleLogger;
     private DataOrderPreferences dataOrderPreferences;
     private Disposable searchDisposable;
@@ -54,9 +64,6 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
 
     @BindView(R.id.songsFragment_recyclerView)
     RecyclerView recyclerView;
-
-    @BindView(R.id.songsFragment_searchEditText)
-    EditText searchEditText;
 
     @BindView(R.id.songsFragment_progressSpinner)
     ProgressBar progressSpinner;
@@ -76,6 +83,7 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         consoleLogger = new ConsoleLogger();
         searchEngine = new SearchEngine(consoleLogger, getActivity().getApplicationContext());
         dataOrderPreferences = DataOrderPreferences.getInstance(getActivity().getApplicationContext());
@@ -93,13 +101,22 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         super.onViewCreated(view, savedInstanceState);
         prepareRecyclerViewAdapter();
         hideProgressBar();
-        prepareObservable();
-        subscribeSearchingWithDataLoading();
     }
 
-    private void prepareObservable() {
-        if (searchObservable == null)
-            searchObservable = new SearchObservable(searchEditText).create();
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+//        searchObservable = null;
+//        searchViewObservable = null;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+//        storeSongsList();
+        List<SongModel> songsList = songsAdapter.getSongsList();
+        outState.putParcelable(SONGS_KEY, Parcels.wrap(songsList));
     }
 
     private void showEmptyResultMessage() {
@@ -111,15 +128,26 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     }
 
     private void prepareRecyclerViewAdapter() {
-        songsAdapter = new SongsAdapter(getActivity());
+        List<SongModel> songModels = restoreSongs();
+        songsAdapter = new SongsAdapter(getActivity(), songModels);
         songsAdapter.setClickListener(this);
         recyclerView.setAdapter(songsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        refreshEmptyTextVisibility();
+    }
+
+    private List<SongModel> restoreSongs() {
+        List<SongModel> songModels = Parcels.unwrap(createBundle().getParcelable(SONGS_KEY));
+        if (songModels == null)
+            songModels = new ArrayList<>();
+        else
+            consoleLogger.info("restored records: " + songModels.size());
+        return songModels;
     }
 
     private void subscribeSearchingWithDataLoading() {
         if (searchDisposable == null)
-            searchDisposable = searchObservable
+            searchDisposable = searchViewObservable
                     .debounce(LOADING_TIME_OFFSET, TimeUnit.MILLISECONDS)
                     .filter(new Predicate<String>() {
                         @Override
@@ -150,6 +178,7 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
                     .subscribe(new Consumer<List<SongModel>>() {
                         @Override
                         public void accept(List<SongModel> songsList) {
+                            consoleLogger.info("accept:" + songsList.size() + songsList);
                             hideProgressBar();
                             showResult(songsList);
                         }
@@ -160,16 +189,16 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     public void onResume() {
         super.onResume();
         consoleLogger.info("onResume");
-        subscribeSearchingWithDataLoading();
+//        subscribeSearchingWithDataLoading();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        dispose();
+        disposeSearchEditTextObservable();
     }
 
-    private void dispose() {
+    private void disposeSearchEditTextObservable() {
         if (searchDisposable != null && !searchDisposable.isDisposed()) {
             searchDisposable.dispose();
             searchDisposable = null;
@@ -177,11 +206,15 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     }
 
     private void showResult(List<SongModel> songsList) {
-        if (songsList.isEmpty())
+        refreshList(songsList);
+        refreshEmptyTextVisibility();
+    }
+
+    private void refreshEmptyTextVisibility() {
+        if (songsAdapter.getSongsList().isEmpty())
             showEmptyResultMessage();
         else
             hideEmptyResultMessage();
-        refreshList(songsList);
     }
 
     private void refreshList(List<SongModel> songsList) {
@@ -200,6 +233,7 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
 
     @Override
     public void songClicked(SongModel songModel, SongViewHolder holder) {
+        storeSongsList();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             materialAnimation(songModel, holder);
         else
@@ -235,6 +269,15 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
                 .commit();
     }
 
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_fragment_songs, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchViewObservable = new SearchViewObservable(searchView).create();
+        subscribeSearchingWithDataLoading();
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -250,7 +293,33 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         interactionListener = null;
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        Log.d(TAG, "onQueryTextSubmit " + query);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        Log.d(TAG, "onQueryTextChange " + newText);
+        return false;
+    }
+
     public interface InteractionListener {
         void onSongClicked(SongModel songModel);
+    }
+
+    private void storeSongsList() {
+        List<SongModel> songsList = songsAdapter.getSongsList();
+        Bundle bundle = createBundle();
+        bundle.putParcelable(SONGS_KEY, Parcels.wrap(songsList));
+        setArguments(bundle);
+    }
+
+    private Bundle createBundle() {
+        Bundle arguments = getArguments();
+        if (arguments == null)
+            return new Bundle();
+        return arguments;
     }
 }

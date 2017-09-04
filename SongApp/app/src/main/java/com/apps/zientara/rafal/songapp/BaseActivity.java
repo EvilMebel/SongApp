@@ -18,7 +18,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void openFragment(Fragment fragment, boolean canGoBack) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(ENTER_ANIM, EXIT_ANIM, ENTER_ANIM, EXIT_ANIM);
+//        transaction.setCustomAnimations(ENTER_ANIM, EXIT_ANIM, ENTER_ANIM, EXIT_ANIM);
         if (canGoBack) {
             transaction.add(R.id.mainActivity_fragmentContainer, fragment);
             transaction.addToBackStack(null);
