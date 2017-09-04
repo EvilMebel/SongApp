@@ -22,6 +22,7 @@ import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.zientara.rafal.songapp.R;
 import com.apps.zientara.rafal.songapp.SearchEngine;
 import com.apps.zientara.rafal.songapp.adapters.SongsAdapter;
+import com.apps.zientara.rafal.songapp.adapters.viewHolders.SongViewHolder;
 import com.apps.zientara.rafal.songapp.loggers.ConsoleLogger;
 import com.apps.zientara.rafal.songapp.observables.SearchObservable;
 import com.apps.zientara.rafal.songapp.preferences.DataOrderPreferences;
@@ -194,15 +195,15 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     }
 
     @Override
-    public void songClicked(SongModel songModel) {
+    public void songClicked(SongModel songModel, SongViewHolder holder) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            materialAnimation(songModel);
+            materialAnimation(songModel, holder);
         else
             interactionListener.onSongClicked(songModel);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void materialAnimation(SongModel songModel) {
+    private void materialAnimation(SongModel songModel, SongViewHolder holder) {
         boolean overlap = false;
         SongDetailsFragment songDetailsFragment = SongDetailsFragment.newInstance(songModel);
 
@@ -210,7 +211,7 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         slideTransition.setDuration(getResources().getInteger(R.integer.anim_duration_medium));
 
         android.transition.ChangeBounds changeBoundsTransition = new android.transition.ChangeBounds();
-        changeBoundsTransition.setDuration(getResources().getInteger(R.integer.anim_duration_medium));
+        changeBoundsTransition.setDuration(getResources().getInteger(R.integer.anim_duration_very_long));
 
         songDetailsFragment.setEnterTransition(slideTransition);
         songDetailsFragment.setAllowEnterTransitionOverlap(overlap);
@@ -220,7 +221,9 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         getFragmentManager().beginTransaction()
                 .replace(R.id.mainActivity_fragmentContainer, songDetailsFragment)
                 .addToBackStack(null)
-                .addSharedElement(smallImage, getString(R.string.transition_songIcon))
+                .addSharedElement(holder.imageView, getString(R.string.transition_songIcon))
+                .addSharedElement(holder.songNameText, getString(R.string.transition_songName))
+                .addSharedElement(holder.artistText, getString(R.string.transition_songArtist))
                 .commit();
     }
 

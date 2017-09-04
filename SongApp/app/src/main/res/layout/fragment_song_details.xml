@@ -26,7 +26,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="@dimen/medium_padding"
-        android:text="@string/dummy_text" />
+        android:text="@string/dummy_text"
+        android:transitionName="@string/transition_songName" />
 
     <TextView
         android:id="@+id/songDetailsFragment_artistText"
@@ -35,7 +36,8 @@
         android:gravity="center"
         android:padding="@dimen/medium_padding"
         android:text="@string/dummy_text"
-        android:textColor="@color/songDetailsFragmentText" />
+        android:textColor="@color/songDetailsFragmentText"
+        android:transitionName="@string/transition_songArtist" />
 
     <TextView
         android:id="@+id/songDetailsFragment_yearText"

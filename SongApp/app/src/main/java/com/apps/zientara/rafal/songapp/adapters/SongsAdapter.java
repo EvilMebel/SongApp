@@ -30,13 +30,13 @@ public class SongsAdapter extends RecyclerView.Adapter<SongViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(SongViewHolder holder, int position) {
+    public void onBindViewHolder(final SongViewHolder holder, int position) {
         final SongModel song = songsList.get(position);
         holder.updateFields(song);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickListener.songClicked(song);//// TODO: 03.09.2017 test
+                clickListener.songClicked(song, holder);//// TODO: 03.09.2017 test
             }
         });
     }
@@ -55,6 +55,6 @@ public class SongsAdapter extends RecyclerView.Adapter<SongViewHolder>{
     }
 
     public interface ClickListener {
-        void songClicked(SongModel songModel);
+        void songClicked(SongModel songModel, SongViewHolder holder);
     }
 }
