@@ -47,10 +47,14 @@ public class SongDetailsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_song_details, container, false);
         ButterKnife.bind(this, view);
+        applyGoFromSongsEffect();
+        return view;
+    }
+
+    private void applyGoFromSongsEffect() {
         ViewCompat.setTransitionName(artistText, SharedElementHelper.getArtistTrans(songModel));
         ViewCompat.setTransitionName(imageView, SharedElementHelper.getIconTrans(songModel));
         ViewCompat.setTransitionName(songNameText, SharedElementHelper.getNameTrans(songModel));
-        return view;
     }
 
     public static SongDetailsFragment newInstance(SongModel songModel) {
@@ -72,10 +76,8 @@ public class SongDetailsFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
 
         postponeEnterTransition();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
-        }
-        setSharedElementReturnTransition(null);
 
         Bundle arguments = getArguments();
         if (arguments != null)

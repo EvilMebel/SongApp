@@ -16,7 +16,6 @@
         android:layout_height="128dp"
         android:layout_margin="@dimen/medium_padding"
         android:background="@android:color/white"
-        android:transitionName="@string/transition_songIcon"
         app:srcCompat="@drawable/ic_music_note_black_24dp" />
 
     <TextView
@@ -26,8 +25,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="@dimen/medium_padding"
-        android:text="@string/dummy_text"
-        android:transitionName="@string/transition_songName" />
+        android:text="@string/dummy_text" />
 
     <TextView
         android:id="@+id/songDetailsFragment_artistText"
@@ -36,8 +34,7 @@
         android:gravity="center"
         android:padding="@dimen/medium_padding"
         android:text="@string/dummy_text"
-        android:textColor="@color/songDetailsFragmentText"
-        android:transitionName="@string/transition_songArtist" />
+        android:textColor="@color/songDetailsFragmentText" />
 
     <TextView
         android:id="@+id/songDetailsFragment_yearText"

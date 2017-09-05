@@ -1,15 +1,11 @@
 package com.apps.zientara.rafal.songapp.fragments;
 
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v4.view.ViewCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Slide;
-import android.view.Gravity;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,6 +24,7 @@ import com.apps.zientara.rafal.songapp.SearchEngine;
 import com.apps.zientara.rafal.songapp.adapters.SongsAdapter;
 import com.apps.zientara.rafal.songapp.adapters.viewHolders.SongViewHolder;
 import com.apps.zientara.rafal.songapp.loggers.ConsoleLogger;
+import com.apps.zientara.rafal.songapp.fragments.materialEffects.SongsFragmentEffects;
 import com.apps.zientara.rafal.songapp.observables.SearchViewObservable;
 import com.apps.zientara.rafal.songapp.preferences.DataOrderPreferences;
 
@@ -50,15 +47,14 @@ import io.reactivex.schedulers.Schedulers;
 public class SongsFragment extends BaseFragment implements SongsAdapter.ClickListener {
     private static final String TAG = SongsFragment.class.getSimpleName();
     private static final int LOADING_TIME_OFFSET = 300;
-    public static final String SONGS_KEY = "songs";
-    public static final String SEARCH_PHRASE_KEY = "search_phrase";
+    private static final String SONGS_KEY = "songs";
+    private static final String SEARCH_PHRASE_KEY = "search_phrase";
     private Observable<String> searchViewObservable;
     private ConsoleLogger consoleLogger;
     private DataOrderPreferences dataOrderPreferences;
     private Disposable searchDisposable;
     private SearchEngine searchEngine;
     private SongsAdapter songsAdapter;
-    private InteractionListener interactionListener;
     private SearchView searchView;
 
     @BindView(R.id.songsFragment_recyclerView)
@@ -222,10 +218,7 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     public void songClicked(SongModel songModel, SongViewHolder holder) {
         storeSongsList();
         storeSearchPhrase();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            materialAnimation(songModel, holder);
-        else
-            interactionListener.onSongClicked(songModel);
+        openSongDetailsFragment(songModel, holder);
     }
 
     private void storeSearchPhrase() {
@@ -235,28 +228,20 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void materialAnimation(SongModel songModel, SongViewHolder holder) {
-        boolean overlap = false;
+    private void openSongDetailsFragment(SongModel songModel, SongViewHolder holder) {
         SongDetailsFragment songDetailsFragment = SongDetailsFragment.newInstance(songModel);
-        Slide slideTransition = new Slide(Gravity.RIGHT);
-        slideTransition.setDuration(getResources().getInteger(R.integer.anim_duration_medium));
-
-        android.transition.ChangeBounds changeBoundsTransition = new android.transition.ChangeBounds();
-        changeBoundsTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
-
-        songDetailsFragment.setEnterTransition(slideTransition);
-        songDetailsFragment.setAllowEnterTransitionOverlap(overlap);
-        songDetailsFragment.setAllowReturnTransitionOverlap(overlap);
-        songDetailsFragment.setSharedElementEnterTransition(changeBoundsTransition);
-
-        getFragmentManager().beginTransaction()
-                .replace(R.id.mainActivity_fragmentContainer, songDetailsFragment)
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        applyMaterialEffects(holder, songDetailsFragment, transaction);
+        transaction.replace(R.id.mainActivity_fragmentContainer, songDetailsFragment)
                 .addToBackStack(null)
-                .addSharedElement(holder.artistText, ViewCompat.getTransitionName(holder.artistText))
-                .addSharedElement(holder.imageView, ViewCompat.getTransitionName(holder.imageView))
-                .addSharedElement(holder.songNameText, ViewCompat.getTransitionName(holder.songNameText))
                 .commit();
+    }
+
+    private void applyMaterialEffects(SongViewHolder holder, SongDetailsFragment songDetailsFragment, FragmentTransaction transaction) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            SongsFragmentEffects songsFragmentEffects = new SongsFragmentEffects(getActivity());
+            songsFragmentEffects.applyGoToDetailsEffects(holder, songDetailsFragment, transaction);
+        }
     }
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -272,25 +257,6 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     private void restoreSearchPhrase(SearchView searchView) {
         String searchPhrase = getBundleNonNull().getString(SEARCH_PHRASE_KEY, "");
         searchView.setQuery(searchPhrase, false);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof InteractionListener)
-            interactionListener = (InteractionListener) context;
-        else
-            throw new RuntimeException(String.format("%s must implement InteractionListener", context.toString()));
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        interactionListener = null;
-    }
-
-    public interface InteractionListener {
-        void onSongClicked(SongModel songModel);
     }
 
     private void storeSongsList() {
