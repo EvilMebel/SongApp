@@ -12,13 +12,13 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 public abstract class BaseActivity extends AppCompatActivity {
-    private static final int ENTER_ANIM = android.R.anim.slide_in_left;
-    private static final int EXIT_ANIM = android.R.anim.slide_out_right;
+    public static final int ENTER_ANIM = android.R.anim.slide_in_left;
+    public static final int EXIT_ANIM = android.R.anim.slide_out_right;
     protected String TAG;
 
     protected void openFragment(Fragment fragment, boolean canGoBack) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.setCustomAnimations(ENTER_ANIM, EXIT_ANIM, ENTER_ANIM, EXIT_ANIM);
+        transaction.setCustomAnimations(ENTER_ANIM, EXIT_ANIM, ENTER_ANIM, EXIT_ANIM);
         if (canGoBack) {
             transaction.add(R.id.mainActivity_fragmentContainer, fragment);
             transaction.addToBackStack(null);

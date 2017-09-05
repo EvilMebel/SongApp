@@ -255,14 +255,6 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         songDetailsFragment.setAllowReturnTransitionOverlap(overlap);
         songDetailsFragment.setSharedElementEnterTransition(changeBoundsTransition);
 
-//        ViewCompat.setTransitionName(holder.imageView, getString(R.string.transition_songIcon));
-//        ViewCompat.setTransitionName(holder.songNameText, getString(R.string.transition_songName));
-//        ViewCompat.setTransitionName(holder.artistText, getString(R.string.transition_songArtist));
-
-//        ViewCompat.setTransitionName(artistText, SharedElementHelper.getArtistTrans(songModel));
-//        ViewCompat.setTransitionName(imageView, SharedElementHelper.getIconTrans(songModel));
-//        ViewCompat.setTransitionName(songNameText, SharedElementHelper.getNameTrans(songModel));
-
         getFragmentManager().beginTransaction()
                 .replace(R.id.mainActivity_fragmentContainer, songDetailsFragment)
                 .addToBackStack(null)
