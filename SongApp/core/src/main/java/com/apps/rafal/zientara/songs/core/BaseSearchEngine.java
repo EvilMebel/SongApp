@@ -23,7 +23,6 @@ public abstract class BaseSearchEngine {
         this.logger = logger;
         songsComparator = new SongsNameComparator();
         songsSources = new ArrayList<>();
-        logger.info("Ready!");
     }
 
     public AbstractSongsComparator getSongsComparator() {
@@ -35,7 +34,6 @@ public abstract class BaseSearchEngine {
     }
 
     public List<SongModel> searchSongs(String searchPhrase) {
-        logger.info(String.format("Searching... %s", searchPhrase));
         return getSongModels(new SearchSongsCriteria(searchPhrase));
     }
 
@@ -48,8 +46,6 @@ public abstract class BaseSearchEngine {
         for (SongsSource source : songsSources) {
             if (source.isEnabled())
                 output.addAll(criteria.getData(source));
-            else
-                logger.info(source.getClass().getSimpleName() + " is disabled");
         }
         Collections.sort(output, songsComparator);
         return output;

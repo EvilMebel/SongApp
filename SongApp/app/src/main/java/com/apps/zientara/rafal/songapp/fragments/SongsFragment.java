@@ -25,6 +25,7 @@ import com.apps.zientara.rafal.songapp.adapters.SongsAdapter;
 import com.apps.zientara.rafal.songapp.adapters.viewHolders.SongViewHolder;
 import com.apps.zientara.rafal.songapp.loggers.ConsoleLogger;
 import com.apps.zientara.rafal.songapp.fragments.materialEffects.SongsFragmentEffects;
+import com.apps.zientara.rafal.songapp.loggers.SnackbarLogger;
 import com.apps.zientara.rafal.songapp.observables.SearchViewObservable;
 import com.apps.zientara.rafal.songapp.preferences.DataOrderPreferences;
 
@@ -50,6 +51,7 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     private static final String SONGS_KEY = "songs";
     private static final String SEARCH_PHRASE_KEY = "search_phrase";
     private Observable<String> searchViewObservable;
+    private SnackbarLogger snackbarLogger;
     private ConsoleLogger consoleLogger;
     private DataOrderPreferences dataOrderPreferences;
     private Disposable searchDisposable;
@@ -78,7 +80,8 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         consoleLogger = new ConsoleLogger();
-        searchEngine = new SearchEngine(consoleLogger, getActivity().getApplicationContext());
+        snackbarLogger = new SnackbarLogger();
+        searchEngine = new SearchEngine(snackbarLogger, getActivity().getApplicationContext());
         dataOrderPreferences = DataOrderPreferences.getInstance(getActivity().getApplicationContext());
     }
 
@@ -92,6 +95,7 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        snackbarLogger.enable(view);
         restoreSearchPhrase();
         List<SongModel> restoredSongs = getRestoredSongs();
         prepareRecyclerViewAdapter(restoredSongs);
@@ -102,6 +106,7 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     public void onDestroyView() {
         super.onDestroyView();
         disposeSearch();
+        snackbarLogger.disable();
     }
 
     @Override

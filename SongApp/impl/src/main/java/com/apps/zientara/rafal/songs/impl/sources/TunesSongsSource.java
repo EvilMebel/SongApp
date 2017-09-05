@@ -46,12 +46,11 @@ public class TunesSongsSource extends SongsSource {
 
     @Override
     public List<SongModel> searchSongs(String searchPhrase) {
-        String searchString = getSearchString(searchPhrase);
         List<SongModel> songsList = new ArrayList<>();
         try {
-            trySearchSongs(searchString, songsList);
+            trySearchSongs(searchPhrase, songsList);
         } catch (Exception e) {
-            logger.error(String.format("%s : %s", e.getClass().getSimpleName(), e.getMessage()));
+            logger.error("Searching iTunes failed. Check internet connection");
             return new ArrayList<>();
         }
         return songsList;
@@ -62,19 +61,6 @@ public class TunesSongsSource extends SongsSource {
         List<TunesSong> resultsSongs = execute.body().getResultsSongs();
         for (TunesSong song : resultsSongs)
             songsList.add(song);
-    }
-
-    private String getSearchString(String searchPhrase) {
-        /*String searchString = "";
-        String[] split = searchPhrase.split(" ");
-        int wordsCount = split.length;
-        for (int i = 0; i < wordsCount; i++) {
-            searchString += split[i];
-            if (i < wordsCount - 1)
-                searchPhrase += "+";
-        }
-        return searchString;*/
-        return searchPhrase;
     }
 
     @Override
