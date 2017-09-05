@@ -56,6 +56,7 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     private SearchEngine searchEngine;
     private SongsAdapter songsAdapter;
     private SearchView searchView;
+    private String searchPhrase;
 
     @BindView(R.id.songsFragment_recyclerView)
     RecyclerView recyclerView;
@@ -91,7 +92,9 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        prepareRecyclerViewAdapter();
+        restoreSearchPhrase();
+        List<SongModel> restoredSongs = getRestoredSongs();
+        prepareRecyclerViewAdapter(restoredSongs);
         hideProgressBar();
     }
 
@@ -104,7 +107,6 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-//        storeSongsList();
         List<SongModel> songsList = songsAdapter.getSongsList();
         outState.putParcelable(SONGS_KEY, Parcels.wrap(songsList));
     }
@@ -117,8 +119,7 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         messageLinearLayout.setVisibility(View.GONE);
     }
 
-    private void prepareRecyclerViewAdapter() {
-        List<SongModel> songModels = restoreSongs();
+    private void prepareRecyclerViewAdapter(List<SongModel> songModels) {
         songsAdapter = new SongsAdapter(getActivity(), songModels);
         songsAdapter.setClickListener(this);
         recyclerView.setAdapter(songsAdapter);
@@ -126,7 +127,7 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         refreshEmptyTextVisibility();
     }
 
-    private List<SongModel> restoreSongs() {
+    private List<SongModel> getRestoredSongs() {
         List<SongModel> songModels = Parcels.unwrap(getBundleNonNull().getParcelable(SONGS_KEY));
         if (songModels == null)
             songModels = new ArrayList<>();
@@ -247,22 +248,30 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_fragment_songs, menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) searchItem.getActionView();
-        restoreSearchPhrase(searchView);
-        searchViewObservable = new SearchViewObservable(searchView).create();
+        searchView.setQuery(searchPhrase, false);
+        restartObservableAndDisposable();
+    }
+
+    private void restartObservableAndDisposable() {
+        disposeSearch();
+        searchViewObservable = new SearchViewObservable(searchView).create(songsAdapter.getItemCount() == 0);
         subscribeSearchingWithDataLoading();
     }
 
-    private void restoreSearchPhrase(SearchView searchView) {
-        String searchPhrase = getBundleNonNull().getString(SEARCH_PHRASE_KEY, "");
-        searchView.setQuery(searchPhrase, false);
+    private void restoreSearchPhrase() {
+        searchPhrase = getBundleNonNull().getString(SEARCH_PHRASE_KEY, "");
     }
 
     private void storeSongsList() {
         List<SongModel> songsList = songsAdapter.getSongsList();
         Bundle bundle = getBundleNonNull();
         bundle.putParcelable(SONGS_KEY, Parcels.wrap(songsList));
-        setArguments(bundle);
     }
 }

@@ -20,26 +20,35 @@ public class SearchViewObservable {
         this.searchView = searchView;
     }
 
-    public Observable<String> create() {
+    public Observable<String> create(final boolean initIfEmpty) {
         return BehaviorSubject.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(final ObservableEmitter<String> emitter) throws Exception {
-
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-                        Log.d("SearchViewObservable", "onQueryTextChange:" + newText);
-                        emitter.onNext(newText);
-                        return false;
-                    }
-                });
-//                emitter.onNext("");
+                prepareQueryListener(emitter);
+                initIfEmptyQuery(emitter, initIfEmpty);
             }
         });
+    }
+
+    private void prepareQueryListener(final ObservableEmitter<String> emitter) {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d("SearchViewObservable", "onQueryTextChange:" + newText);
+                emitter.onNext(newText);
+                return false;
+            }
+        });
+    }
+
+    private void initIfEmptyQuery(ObservableEmitter<String> emitter, boolean initIfEmpty) {
+        String startQuery = searchView.getQuery().toString();
+        if (initIfEmpty && startQuery.isEmpty())
+            emitter.onNext("");
     }
 }

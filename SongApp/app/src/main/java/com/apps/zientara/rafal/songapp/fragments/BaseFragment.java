@@ -1,5 +1,6 @@
 package com.apps.zientara.rafal.songapp.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -60,9 +61,20 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.i(getFragmentTag(), "onViewCreated");
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         Log.i(getFragmentTag(), "onDestroyView");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -100,8 +112,10 @@ public abstract class BaseFragment extends Fragment {
 
     Bundle getBundleNonNull() {
         Bundle arguments = getArguments();
-        if (arguments == null)
-            return new Bundle();
+        if (arguments == null) {
+            arguments = new Bundle();
+            setArguments(arguments);
+        }
         return arguments;
     }
 
