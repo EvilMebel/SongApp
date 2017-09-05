@@ -97,4 +97,12 @@ public abstract class BaseFragment extends Fragment {
         menuItemsHider.showForeignMenuItems();
         menuItemsHider.clearList();
     }
+
+    Bundle getBundleNonNull() {
+        Bundle arguments = getArguments();
+        if (arguments == null)
+            return new Bundle();
+        return arguments;
+    }
+
 }
