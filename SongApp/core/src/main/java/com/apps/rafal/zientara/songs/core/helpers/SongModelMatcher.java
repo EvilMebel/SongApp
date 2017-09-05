@@ -5,10 +5,6 @@ import com.apps.rafal.zientara.songs.core.model.SongModel;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Evil on 29.08.2017.
- */
-
 public class SongModelMatcher {
 
     public static boolean defaultMatchesQuery(String[] words, SongModel songModel) {

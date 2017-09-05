@@ -6,10 +6,6 @@ import android.preference.PreferenceManager;
 
 import com.f2prateek.rx.preferences2.RxSharedPreferences;
 
-/**
- * Created by Evil on 30.08.2017.
- */
-
 public class DataSourcePreferences extends AbstractPreferences {
     private static final String SETTINGS_USE_LOCAL_DB_KEY = "SETTINGS_USE_LOCAL_DB";
     private static final String SETTINGS_USE_FAKE_DATA_KEY = "SETTINGS_FAKE_DATA";

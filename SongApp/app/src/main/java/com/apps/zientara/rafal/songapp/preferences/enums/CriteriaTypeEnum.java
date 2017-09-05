@@ -1,9 +1,5 @@
 package com.apps.zientara.rafal.songapp.preferences.enums;
 
-/**
- * Created by Evil on 31.08.2017.
- */
-
 public enum CriteriaTypeEnum {
     ARTIST(1),
     DATE(2),

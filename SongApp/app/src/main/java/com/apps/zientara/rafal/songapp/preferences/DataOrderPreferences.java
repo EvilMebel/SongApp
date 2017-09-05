@@ -4,10 +4,6 @@ import android.content.Context;
 
 import com.apps.zientara.rafal.songapp.preferences.enums.CriteriaTypeEnum;
 
-/**
- * Created by Evil on 31.08.2017.
- */
-
 public class DataOrderPreferences extends AbstractPreferences {
     private static final String SETTINGS_IS_ASCENDING_KEY = "SETTINGS_IS_ASCENDING_KEY";
     private static final String SETTINGS_SORTING_CRITERIA_KEY = "SETTINGS_SORTING_CRITERIA_KEY";

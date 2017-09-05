@@ -5,10 +5,6 @@ import com.apps.rafal.zientara.songs.core.model.SongModel;
 
 import java.util.List;
 
-/**
- * Created by Evil on 29.08.2017.
- */
-
 public abstract class SongsSource {
     private boolean isEnabled;
     protected Logger logger;

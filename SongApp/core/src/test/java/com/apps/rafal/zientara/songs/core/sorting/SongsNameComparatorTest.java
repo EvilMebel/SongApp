@@ -13,9 +13,6 @@ import org.junit.Test;
 
 import java.util.List;
 
-/**
- * Created by Evil on 03.09.2017.
- */
 public class SongsNameComparatorTest {
 
     private SystemLogger logger;

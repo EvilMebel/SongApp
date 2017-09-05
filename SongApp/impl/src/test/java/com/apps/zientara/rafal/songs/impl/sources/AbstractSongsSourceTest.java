@@ -13,10 +13,6 @@ import org.junit.Test;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-/**
- * Created by Evil on 03.09.2017.
- */
-
 public abstract class AbstractSongsSourceTest {
 
     private Logger logger;

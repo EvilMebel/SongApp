@@ -4,10 +4,6 @@ import com.apps.rafal.zientara.songs.core.model.SongModel;
 
 import java.util.Comparator;
 
-/**
- * Created by Evil on 29.08.2017.
- */
-
 public class SongsNameComparator extends AbstractSongsComparator{
 
     @Override

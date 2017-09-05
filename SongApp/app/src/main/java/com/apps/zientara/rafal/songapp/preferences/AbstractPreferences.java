@@ -4,10 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-/**
- * Created by Evil on 31.08.2017.
- */
-
 public abstract class AbstractPreferences {
 
     final SharedPreferences preferences;

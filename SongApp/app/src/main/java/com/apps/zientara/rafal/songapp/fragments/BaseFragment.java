@@ -1,6 +1,5 @@
 package com.apps.zientara.rafal.songapp.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,18 +8,9 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
-import com.apps.zientara.rafal.songapp.R;
 import com.apps.zientara.rafal.songapp.helpers.MenuItemsHider;
-
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by Evil on 30.08.2017.
- */
 
 public abstract class BaseFragment extends Fragment {
 

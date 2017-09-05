@@ -7,12 +7,7 @@ import com.apps.rafal.zientara.songs.core.sources.SongsSource;
 import com.apps.zientara.rafal.songs.impl.converters.JsonFileConverter;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by Evil on 29.08.2017.
- */
 
 public class JsonSongsSource extends SongsSource {
 

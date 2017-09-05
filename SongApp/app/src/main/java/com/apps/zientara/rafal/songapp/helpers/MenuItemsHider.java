@@ -6,10 +6,6 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Evil on 04.09.2017.
- */
-
 public class MenuItemsHider {
     private static final int SMALLEST_MAIN_OPTION_ORDER = 1000;
     private List<MenuItem> foreignMenuItems = new ArrayList<>();

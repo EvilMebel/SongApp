@@ -3,17 +3,12 @@ package com.apps.zientara.rafal.songapp.observables;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.BehaviorSubject;
-
-/**
- * Created by Evil on 29.08.2017.
- */
 
 public class SearchObservable {
     private EditText searchEditText;

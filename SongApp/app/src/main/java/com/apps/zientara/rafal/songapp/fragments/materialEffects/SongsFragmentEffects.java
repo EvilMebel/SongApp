@@ -12,10 +12,6 @@ import com.apps.zientara.rafal.songapp.R;
 import com.apps.zientara.rafal.songapp.adapters.viewHolders.SongViewHolder;
 import com.apps.zientara.rafal.songapp.fragments.SongDetailsFragment;
 
-/**
- * Created by Evil on 05.09.2017.
- */
-
 public class SongsFragmentEffects {
     public static final boolean USE_OVERLAP = false;
     private final int slideDurationMillis;

@@ -6,12 +6,11 @@ import com.apps.rafal.zientara.songs.core.criteries.SongSourceCriteria;
 import com.apps.rafal.zientara.songs.core.loggers.Logger;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.rafal.zientara.songs.core.sorting.AbstractSongsComparator;
-import com.apps.rafal.zientara.songs.core.sources.SongsSource;
 import com.apps.rafal.zientara.songs.core.sorting.SongsNameComparator;
+import com.apps.rafal.zientara.songs.core.sources.SongsSource;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public abstract class BaseSearchEngine {

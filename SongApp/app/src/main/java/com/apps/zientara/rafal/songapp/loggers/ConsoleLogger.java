@@ -4,10 +4,6 @@ import android.util.Log;
 
 import com.apps.rafal.zientara.songs.core.loggers.Logger;
 
-/**
- * Created by Evil on 30.08.2017.
- */
-
 public class ConsoleLogger implements Logger {
 
     public static final String TAG = ConsoleLogger.class.getSimpleName();

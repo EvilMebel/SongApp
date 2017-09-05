@@ -5,10 +5,6 @@ import com.apps.rafal.zientara.songs.core.model.SongModel;
 
 import java.util.Random;
 
-/**
- * Created by Evil on 29.08.2017.
- */
-
 public class FakeSong implements SongModel {
 
     String songName;

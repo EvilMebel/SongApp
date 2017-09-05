@@ -1,17 +1,13 @@
 package com.apps.zientara.rafal.songs.impl.sources;
 
 import com.apps.rafal.zientara.songs.core.loggers.Logger;
-import com.apps.zientara.rafal.songs.impl.models.FakeSong;
 import com.apps.rafal.zientara.songs.core.model.SongModel;
 import com.apps.rafal.zientara.songs.core.sources.SongsSource;
+import com.apps.zientara.rafal.songs.impl.models.FakeSong;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-/**
- * Created by Evil on 29.08.2017.
- */
 
 public class FakeSongsSource extends SongsSource {
     private static final int FAKE_LOADING_MILLIS = 300;

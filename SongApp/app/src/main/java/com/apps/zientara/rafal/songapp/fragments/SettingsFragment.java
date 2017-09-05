@@ -2,12 +2,8 @@ package com.apps.zientara.rafal.songapp.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -16,17 +12,12 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 
 import com.apps.zientara.rafal.songapp.R;
-import com.apps.zientara.rafal.songapp.observables.SearchViewObservable;
 import com.apps.zientara.rafal.songapp.preferences.DataOrderPreferences;
 import com.apps.zientara.rafal.songapp.preferences.DataSourcePreferences;
 import com.apps.zientara.rafal.songapp.preferences.enums.CriteriaTypeEnum;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-/**
- * Created by Evil on 30.08.2017.
- */
 
 public class SettingsFragment extends BaseFragment {
     private DataSourcePreferences dataSourcePreferences;

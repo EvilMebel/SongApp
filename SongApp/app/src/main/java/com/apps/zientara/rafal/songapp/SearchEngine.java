@@ -18,10 +18,6 @@ import com.apps.zientara.rafal.songs.impl.sources.TunesSongsSource;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created by Evil on 29.08.2017.
- */
-
 public class SearchEngine extends BaseSearchEngine {
     private FakeSongsSource fakeSongsSource;
     private JsonSongsSource jsonSongsSource;

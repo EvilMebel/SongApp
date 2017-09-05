@@ -4,10 +4,6 @@ import com.apps.rafal.zientara.songs.core.model.SongModel;
 
 import java.util.Comparator;
 
-/**
- * Created by Evil on 31.08.2017.
- */
-
 public abstract class AbstractSongsComparator implements Comparator<SongModel> {
     boolean isAscending;
 
