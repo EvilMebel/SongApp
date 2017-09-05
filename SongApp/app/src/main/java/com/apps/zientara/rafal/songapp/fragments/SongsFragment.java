@@ -70,9 +70,6 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     @BindView(R.id.songsFragment_progressSpinner)
     ProgressBar progressSpinner;
 
-    @BindView(R.id.songsFragment_smallImage)
-    ImageView smallImage;
-
     @BindView(R.id.songsFragment_messageImage)
     ImageView messageImage;
 
@@ -108,9 +105,7 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
-//        searchObservable = null;
-//        searchViewObservable = null;
+        disposeSearchEditTextObservable();
     }
 
     @Override
@@ -280,7 +275,6 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) searchItem.getActionView();
         restoreSearchPhrase(searchView);
-        disposeSearchEditTextObservable();
         searchViewObservable = new SearchViewObservable(searchView).create();
         subscribeSearchingWithDataLoading();
     }
