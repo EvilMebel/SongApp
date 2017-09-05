@@ -53,6 +53,7 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     private static final String TAG = SongsFragment.class.getSimpleName();
     private static final int LOADING_TIME_OFFSET = 300;
     public static final String SONGS_KEY = "songs";
+    public static final String SEARCH_PHRASE_KEY = "search_phrase";
     private Observable<String> searchObservable;
     private Observable<String> searchViewObservable;
     private ConsoleLogger consoleLogger;
@@ -61,6 +62,7 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     private SearchEngine searchEngine;
     private SongsAdapter songsAdapter;
     private InteractionListener interactionListener;
+    private SearchView searchView;
 
     @BindView(R.id.songsFragment_recyclerView)
     RecyclerView recyclerView;
@@ -234,10 +236,18 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
     @Override
     public void songClicked(SongModel songModel, SongViewHolder holder) {
         storeSongsList();
+        storeSearchPhrase();//// TODO: 05.09.2017 save in different void?
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             materialAnimation(songModel, holder);
         else
             interactionListener.onSongClicked(songModel);
+    }
+
+    private void storeSearchPhrase() {
+        if(searchView!=null) {
+            String searchPhrase = searchView.getQuery().toString();
+            createBundle().putString(SEARCH_PHRASE_KEY, searchPhrase);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -268,9 +278,16 @@ public class SongsFragment extends BaseFragment implements SongsAdapter.ClickLis
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_fragment_songs, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView = (SearchView) searchItem.getActionView();
+        restoreSearchPhrase(searchView);
+        disposeSearchEditTextObservable();
         searchViewObservable = new SearchViewObservable(searchView).create();
         subscribeSearchingWithDataLoading();
+    }
+
+    private void restoreSearchPhrase(SearchView searchView) {
+        String searchPhrase = createBundle().getString(SEARCH_PHRASE_KEY, "");
+        searchView.setQuery(searchPhrase, false);
     }
 
     @Override
